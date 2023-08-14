@@ -183,14 +183,14 @@ class CardLIst extends StatelessWidget {
                               color: Color.fromARGB(255, 0, 146, 220),
                             ),
                             onPressed: () => {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => MapsDrivePoints(
-                                              placa: 'placa',
-                                              latitude: 20.5,
-                                              longitude: 20.00,
-                                              datahora: '10/10/2000')))
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (_) => MapsDrivePoints(
+                                  //             placa: 'placa',
+                                  //             latitude: 20.5,
+                                  //             longitude: 20.00,
+                                  //             datahora: '10/10/2000')))
                                 },
                             color: Colors.white),
                       ),
