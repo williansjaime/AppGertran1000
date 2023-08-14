@@ -170,11 +170,11 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
 
 
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    LoginValidate(cnpj: '')),
-                            (Route<dynamic> route) => false);
+                        // Navigator.of(context).pushAndRemoveUntil(
+                        //     MaterialPageRoute(
+                        //         builder: (context) =>
+                        //             LoginValidate(cnpj: '')),
+                        //     (Route<dynamic> route) => false);
 
                         if (controller.text.length == 14 ||
                             controller.text.length == 18) {
