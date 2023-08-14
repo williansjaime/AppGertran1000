@@ -9,6 +9,8 @@ import 'package:apptestewillians/pages/DriveHomePage.dart';
 import 'package:mask_shifter/mask_shifter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'MapsDrivePoint.dart';
+
 Future<void> saveToken(String token) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString('token', token);
@@ -168,6 +170,15 @@ class _LoginPageState extends State<LoginPage> {
                         color: cor, borderRadius: BorderRadius.circular(20)),
                     child: TextButton(
                       onPressed: () {
+                        // Navigator.of(context).pushAndRemoveUntil(
+                        //     MaterialPageRoute(
+                        //         builder: (context) => MapsDrivePoints(
+                        //             placa: 'placa',
+                        //             latitude: -19.924693,
+                        //             longitude: -43.942417,
+                        //             datahora: '2023-08-14 15:30:00')),
+                        //     (Route<dynamic> route) => false);
+
                         // Navigator.of(context).pushAndRemoveUntil(
                         //     MaterialPageRoute(
                         //         builder: (context) => HomePage(
