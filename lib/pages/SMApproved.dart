@@ -69,8 +69,8 @@ class _SMApprovedState extends State<SMApproved> {
   {
     super.initState();
     SMModelRepository modelRepository = SMRepositoryMock();
-    futurelist = modelRepository.fetchModelSM();
-    //futurelist = fetchModelSM(cnpj);
+    //futurelist = modelRepository.fetchModelSM();
+    futurelist = fetchModelSM(cnpj);
     
   }
   buildContainer() {
