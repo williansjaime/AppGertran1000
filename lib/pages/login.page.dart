@@ -31,12 +31,12 @@ Future<Login> fetchLogin(final String cnpjcpf) async {
   };
 
   try {
-    http.Response response = await http.get(uri, headers: headers)
-    .timeout(
-        const Duration(seconds: 20),
-            onTimeout: () {
-              return http.Response('Error', 408);
-            },);
+    http.Response response = await http.get(uri, headers: headers).timeout(
+      const Duration(seconds: 20),
+      onTimeout: () {
+        return http.Response('Error', 408);
+      },
+    );
     if (response.statusCode == 200) {
       print(response.body);
       return Login.fromJson(json.decode(response.body));
@@ -168,8 +168,6 @@ class _LoginPageState extends State<LoginPage> {
                         color: cor, borderRadius: BorderRadius.circular(20)),
                     child: TextButton(
                       onPressed: () {
-
-
                         // Navigator.of(context).pushAndRemoveUntil(
                         //     MaterialPageRoute(
                         //         builder: (context) =>
@@ -259,16 +257,19 @@ class LoginValidate extends StatelessWidget {
     return FutureBuilder<Login>(
         future: futureLogin,
         builder: (context, snapshot) {
-
-          if (snapshot.hasError)
-          {
-            return  DriveHomePage();//const LoginPage();
-          }
-          else if(snapshot.hasData){
-                return snapshot.data!.senha ==true ? HomePage(HomecountSM: snapshot.data!.countSM,Homecountchecklist: snapshot.data!.countchecklist,cnpj: cnpj) : DriveHomePage();
-              }else {
-                return Center(
-                  child: CircularProgressIndicator(),);
+          if (snapshot.hasError) {
+            return DriveHomePage(); 
+          } else if (snapshot.hasData) {
+            return snapshot.data!.senha == true
+                ? HomePage(
+                    HomecountSM: snapshot.data!.countSM,
+                    Homecountchecklist: snapshot.data!.countchecklist,
+                    cnpj: cnpj)
+                : DriveHomePage();
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
         });
   }
