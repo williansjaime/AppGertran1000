@@ -170,8 +170,11 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         // Navigator.of(context).pushAndRemoveUntil(
                         //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             LoginValidate(cnpj: '')),
+                        //         builder: (context) => HomePage(
+                        //               cnpj: '',
+                        //               HomecountSM: 10,
+                        //               Homecountchecklist: 20,
+                        //             )),
                         //     (Route<dynamic> route) => false);
 
                         if (controller.text.length == 14 ||
@@ -258,7 +261,7 @@ class LoginValidate extends StatelessWidget {
         future: futureLogin,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return DriveHomePage(); 
+            return DriveHomePage();
           } else if (snapshot.hasData) {
             return snapshot.data!.senha == true
                 ? HomePage(
