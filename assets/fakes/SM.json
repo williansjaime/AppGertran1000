@@ -1,4 +1,5 @@
-{
+[
+  {
     "SM": "12345",
     "Status": "InProgress",
     "PlacaCV": "ABC123",
@@ -8,4 +9,4 @@
     "DataTime": "2023-08-14T12:00:00Z",
     "DataAlter": "2023-08-14T13:30:00Z"
   }
-  
+]

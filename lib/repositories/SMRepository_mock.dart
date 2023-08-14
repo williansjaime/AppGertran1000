@@ -8,7 +8,7 @@ import 'SMRepository.dart';
 class SMRepositoryMock implements SMModelRepository{
   @override
   Future<List<ModelSM>> fetchModelSM() async {
-    var value = await rootBundle.loadString('assets/fakes/SM.json');
+    String value = await rootBundle.loadString('assets/fakes/SM.json');
     List postJson = jsonDecode(value);
     return postJson.map((e) => ModelSM.fromJson(e)).toList();
   }

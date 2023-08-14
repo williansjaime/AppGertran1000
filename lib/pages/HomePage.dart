@@ -4,14 +4,9 @@ import "ListTruck.dart";
 import "ListDriver.dart";
 import "VehicleAlerts.dart";
 import "SMApproved.dart";
-import "SMdisapproved.dart";
 import "VehicleStatus.dart";
-import 'CheckListPage.dart';
 import "package:flutter/material.dart";
-import "package:flutter/src/widgets/container.dart";
-import "package:flutter/src/widgets/framework.dart";
 import "package:apptestewillians/pages/login.page.dart";
-import "package:apptestewillians/pages/DriveComVehicle.dart";
 
 class HomePage extends StatefulWidget {
   HomePage(
@@ -19,6 +14,7 @@ class HomePage extends StatefulWidget {
       required this.HomecountSM,
       required this.Homecountchecklist,
       required this.cnpj});
+      
   int HomecountSM, Homecountchecklist;
   final String cnpj;
   @override
@@ -35,7 +31,7 @@ class _HomePageState extends State<HomePage> {
       required this.cnpj});
   int HomecountSM, Homecountchecklist;
   final String cnpj;
-  @override
+  
   final scaffoldKey = GlobalKey<ScaffoldState>();
   //key for scaffold, required to manually open/close drawer
 

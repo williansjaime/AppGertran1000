@@ -27,13 +27,9 @@ class MyHttpOverrides extends HttpOverrides{
 class AppGertran extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //initState();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Gertran',
-      theme: ThemeData(
-        //primarySwatch: Color.fromARGB(255, 0, 146, 220),
-      ),
       home: LoginPage(), 
     );
   }

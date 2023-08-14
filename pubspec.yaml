@@ -87,6 +87,7 @@ flutter:
     - assets/images/imgfundoGertran01.jpeg
     - assets/ca/lets-encrypt-r3.pem
     - assets/route.json
+    - assets/fakes/SM.json
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

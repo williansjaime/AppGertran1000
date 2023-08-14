@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:apptestewillians/repositories/SMRepository.dart';
+import 'package:apptestewillians/repositories/SMRepository_mock.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:apptestewillians/models/Solicitacao.dart';
@@ -65,7 +67,10 @@ class _SMApprovedState extends State<SMApproved> {
 
   void initState()
   {
-    futurelist = fetchModelSM(cnpj);
+    super.initState();
+    SMModelRepository modelRepository = SMRepositoryMock();
+    futurelist = modelRepository.fetchModelSM();
+    //futurelist = fetchModelSM(cnpj);
     
   }
   buildContainer() {
