@@ -260,17 +260,19 @@ class _LoginPageState extends State<LoginPage>
   return FutureBuilder <Login>(
             future: futureLogin,
             builder: (context, snapshot) {
-            if (snapshot.hasError) 
-            {
-              return  DriveHomePage();//const LoginPage();
-            } 
-            else if(snapshot.hasData){
-                  return snapshot.data!.senha ==true ? HomePage(HomecountSM: snapshot.data!.countSM,Homecountchecklist: snapshot.data!.countchecklist,cnpj: cnpj) : DriveHomePage();                  
-                }else {
-                  return Center(
-                    child: CircularProgressIndicator(),);
+
+              return HomePage(HomecountSM: 10,Homecountchecklist: 15,cnpj: '258789654');
+            // if (snapshot.hasError) 
+            // {
+            //   return  DriveHomePage();//const LoginPage();
+            // } 
+            // else if(snapshot.hasData){
+            //       return snapshot.data!.senha ==true ? HomePage(HomecountSM: snapshot.data!.countSM,Homecountchecklist: snapshot.data!.countchecklist,cnpj: cnpj) : DriveHomePage();                  
+            //     }else {
+            //       return Center(
+            //         child: CircularProgressIndicator(),);
+            // }
             }
-      },
     );    
   }
 }

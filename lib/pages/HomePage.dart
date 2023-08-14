@@ -14,16 +14,26 @@ import "package:apptestewillians/pages/login.page.dart";
 import "package:apptestewillians/pages/DriveComVehicle.dart";
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key,required this.HomecountSM,required this.Homecountchecklist,required this.cnpj});
-  int HomecountSM,Homecountchecklist;
-  final String cnpj; 
+  HomePage(
+      {super.key,
+      required this.HomecountSM,
+      required this.Homecountchecklist,
+      required this.cnpj});
+  int HomecountSM, Homecountchecklist;
+  final String cnpj;
   @override
-  State<HomePage> createState() => _HomePageState(HomecountSM:HomecountSM,Homecountchecklist:Homecountchecklist,cnpj:cnpj);
+  State<HomePage> createState() => _HomePageState(
+      HomecountSM: HomecountSM,
+      Homecountchecklist: Homecountchecklist,
+      cnpj: cnpj);
 }
 
 class _HomePageState extends State<HomePage> {
-  _HomePageState({required this.HomecountSM,required this.Homecountchecklist,required this.cnpj});
-  int HomecountSM,Homecountchecklist;
+  _HomePageState(
+      {required this.HomecountSM,
+      required this.Homecountchecklist,
+      required this.cnpj});
+  int HomecountSM, Homecountchecklist;
   final String cnpj;
   @override
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -71,12 +81,12 @@ class _HomePageState extends State<HomePage> {
               title: Text("Configurações"),
               leading: Icon(Icons.settings),
               onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) =>
-                              DriveHomePage())); //action when this menu is pressed
-                },
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) =>
+                            DriveHomePage())); //action when this menu is pressed
+              },
             ),
             ListTile(
               dense: true,
@@ -92,7 +102,7 @@ class _HomePageState extends State<HomePage> {
         )),
       ),
       body: SingleChildScrollView(
-        child: Column(children: <Widget>[
+          child: Column(children: <Widget>[
         Divider(),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
@@ -107,7 +117,8 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.green,
                     width: 70,
                     height: 70,
-                    child: Icon(Icons.local_shipping, size:60 ,color: Colors.white),
+                    child: Icon(Icons.local_shipping,
+                        size: 60, color: Colors.white),
                   ),
                   SizedBox(width: 10),
                   Expanded(
@@ -126,7 +137,9 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => VehicleStatus(cnpj: cnpj,)))
+                                    builder: (_) => VehicleStatus(
+                                          cnpj: cnpj,
+                                        )))
                           },
                       color: Colors.blue),
                 ],
@@ -134,7 +147,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-      
         Divider(),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
@@ -150,7 +162,10 @@ class _HomePageState extends State<HomePage> {
                     width: 70,
                     height: 70,
                     child: IconButton(
-                        icon: Icon(Icons.bus_alert_rounded,size: 60,),
+                        icon: Icon(
+                          Icons.bus_alert_rounded,
+                          size: 60,
+                        ),
                         onPressed: () => {
                               Navigator.push(
                                   context,
@@ -184,7 +199,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        
         Divider(),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
@@ -199,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                     color: Color.fromARGB(255, 3, 139, 250),
                     width: 70,
                     height: 70,
-                    child: Icon(Icons.article, size: 60,color: Colors.white),
+                    child: Icon(Icons.article, size: 60, color: Colors.white),
                   ),
                   SizedBox(width: 10),
                   Expanded(
@@ -208,15 +222,18 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text("SOLICITAÇÕES DE MONITORAMENTO"),
-                        Text(HomecountSM.toString(), style: TextStyle(color: Colors.grey))
+                        Text(HomecountSM.toString(),
+                            style: TextStyle(color: Colors.grey))
                       ],
                     ),
                   ),
                   IconButton(
                       icon: Icon(Icons.arrow_forward_ios),
                       onPressed: () => {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (_) => SMApproved(cnpj:cnpj)))
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => SMApproved(cnpj: cnpj)))
                           },
                       color: Color.fromARGB(255, 3, 139, 250)),
                 ],
@@ -238,8 +255,8 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.orange,
                     width: 70,
                     height: 70,
-                    child: Icon(Icons.assignment_late_rounded,size: 60,
-                        color: Colors.white),
+                    child: Icon(Icons.assignment_late_rounded,
+                        size: 60, color: Colors.white),
                   ),
                   SizedBox(width: 10),
                   Expanded(
@@ -248,22 +265,25 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text("CHECKLISTS"),
-                        Text(Homecountchecklist.toString(), style: TextStyle(color: Colors.grey))
+                        Text(Homecountchecklist.toString(),
+                            style: TextStyle(color: Colors.grey))
                       ],
                     ),
                   ),
                   IconButton(
                       icon: Icon(Icons.arrow_forward_ios),
-                      onPressed: () => {{}
-                          /* if(Homecountchecklist>0){
+                      onPressed: () => {
+                            {}
+                            /* if(Homecountchecklist>0){
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => CheckListPage(cnpj:cnpj)))
                             }else{
                               {}
-                            }*/,
-                           },                            
+                            }*/
+                            ,
+                          },
                       color: Colors.blue),
                 ],
               ),
@@ -271,7 +291,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Divider(),
-        ])),
+      ])),
     );
   }
 }
