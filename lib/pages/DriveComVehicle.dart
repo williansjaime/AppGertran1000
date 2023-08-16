@@ -89,10 +89,11 @@ class ChoiceCard extends StatelessWidget {
     return Card(
         color: Colors.white,
         child: new InkWell(
-            /*onTap: () {
-              Navigator.push(
-              context, MaterialPageRoute(builder: (_) => showAlertDialog1(context)));              
-            },*/
+            onTap: () {
+              print(comandes?.title);
+              // Navigator.push(
+              // context, MaterialPageRoute(builder: (_) => showAlertDialog(context)));              
+            },
             child: Center(
               child: Column(
                   mainAxisSize: MainAxisSize.min,

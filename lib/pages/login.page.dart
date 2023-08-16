@@ -244,9 +244,15 @@ class LoginValidate extends StatelessWidget {
       //print('cpf');
     }
 
+    // Map<String, String> data = {
+    //   'cpf': cnpjcpf, //cnpjcpf,
+    //   'password': senha //,
+    // };
+
+
     Map<String, String> data = {
-      'cpf': cnpjcpf, //cnpjcpf,
-      'password': senha //,
+      'cpf': '40644214856',
+      'password': '08110194171'
     };
     try {
       http.Response response = await http.post(
