@@ -69,8 +69,8 @@ class _SMApprovedState extends State<SMApproved> {
   void initState() {
     super.initState();
     SMModelRepository modelRepository = SMRepositoryMock();
-    //futurelist = modelRepository.fetchModelSM();
-    futurelist = fetchModelSM(cnpj);
+    futurelist = modelRepository.fetchModelSM();
+    //futurelist = fetchModelSM(cnpj);
   }
 
   buildContainer() {
@@ -183,6 +183,18 @@ class CardLIst extends StatelessWidget {
                               color: Color.fromARGB(255, 0, 146, 220),
                             ),
                             onPressed: () => {
+
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => MapsDrivePoints(
+                                    placa: 'placa',
+                                    latitude: -19.924693,
+                                    longitude: -43.942417,
+                                    datahora: '2023-08-14 15:30:00')),
+                            (Route<dynamic> route) => false)
+
+
+
                                   // Navigator.push(
                                   //     context,
                                   //     MaterialPageRoute(
