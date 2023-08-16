@@ -338,6 +338,7 @@ class LoginValidate extends StatelessWidget {
     return FutureBuilder<Login>(
       future: futureLogin,
       builder: (context, snapshot) {
+        saveToken('teste123');
         return HomePage(HomecountSM: 10, Homecountchecklist: 15, cnpj: cpfcnpj);
 
         // if (validateCNPJ(cpfcnpj)) {

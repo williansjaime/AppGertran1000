@@ -1,4 +1,5 @@
 import 'package:apptestewillians/pages/DriveHomePage.dart';
+import "package:shared_preferences/shared_preferences.dart";
 
 import "ListTruck.dart";
 import "ListDriver.dart";
@@ -35,8 +36,17 @@ class _HomePageState extends State<HomePage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   //key for scaffold, required to manually open/close drawer
 
+  void teste ()async {
+    SharedPreferences te = await SharedPreferences.getInstance();
+    String? token_global111 = te.getString('token');
+    print(token_global111);
+  }
+
   @override
   Widget build(BuildContext context) {
+     
+teste();
+
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -226,6 +236,7 @@ class _HomePageState extends State<HomePage> {
                   IconButton(
                       icon: Icon(Icons.arrow_forward_ios),
                       onPressed: () => {
+
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
