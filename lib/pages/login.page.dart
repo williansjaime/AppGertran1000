@@ -25,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   var senha = new TextEditingController();
   Color cor = Color.fromARGB(255, 0, 100, 220);
   bool tipoUsuario = false;
+  bool motorista = false;
 
   void _showDialog() {
     // flutter defined function
@@ -89,6 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           setState(() {
                             tipoUsuario = true;
+                            motorista = true;
                           });
                         },
                         child: Text(
@@ -109,6 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           setState(() {
                             tipoUsuario = true;
+                            motorista = false;
                           });
                         },
                         child: Text(
@@ -184,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) => LoginValidate(
-                                        cpfcnpj: filter, senha: senha.text)),
+                                        cpfcnpj: filter, senha: senha.text, motorista: motorista)),
                                 (Route<dynamic> route) => false);
                           } else {
                             _showDialog();
@@ -227,33 +230,33 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class LoginValidate extends StatelessWidget {
-  LoginValidate({super.key, required this.cpfcnpj, required this.senha});
+  LoginValidate(
+      {super.key,
+      required this.cpfcnpj,
+      required this.senha,
+      required this.motorista});
 
   final String cpfcnpj;
   final String senha;
+  final bool motorista;
   late String token = "";
   Future<Login>? futureLogin;
 
   Future<Login> fetchLogin(final String cnpjcpf, final String senha) async {
     String url = '';
-    if (true) {
-      //print('cnpj');
+    if (motorista) {
+      print('motorista');
       url = 'https://api.gertran.zayit.com.br/v1/drivers/mobile/login/';
     } else {
       url = 'https://api.gertran.zayit.com.br/v1/drivers/mobile/login/';
-      //print('cpf');
+      print('cliente');
     }
 
-    // Map<String, String> data = {
-    //   'cpf': cnpjcpf, //cnpjcpf,
-    //   'password': senha //,
-    // };
-
-
     Map<String, String> data = {
-      'cpf': '40644214856',
-      'password': '08110194171'
+      'cpf': cnpjcpf, //cnpjcpf,
+      'password': senha //,
     };
+
     try {
       http.Response response = await http.post(
         Uri.parse(url),
@@ -263,7 +266,7 @@ class LoginValidate extends StatelessWidget {
       if (response.statusCode >= 200 && response.statusCode < 300) {
         token = json.decode(response.body)["access_token"];
         saveToken(token);
-        print("Salve Token OK");
+        //print("Salve Token OK");
       } else {
         throw Exception('Failed to load Login');
       }
@@ -321,15 +324,15 @@ class LoginValidate extends StatelessWidget {
             token: token,
           ); */ //
         } else if (snapshot.hasData) {
-          if (false) {
+          if (motorista) {
+            return DriveHomePage(
+              cpfcnpj: cpfcnpj,
+            );
+          } else {
             return HomePage(
                 HomecountSM: snapshot.data!.countSM,
                 Homecountchecklist: snapshot.data!.countchecklist,
                 cnpj: cpfcnpj);
-          } else {
-            return DriveHomePage(
-              cpfcnpj: cpfcnpj,
-            );
           }
 
           //snapshot.data!.token != ""?
