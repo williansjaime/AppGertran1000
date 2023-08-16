@@ -42,61 +42,61 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text("Gerenciamento"),
       ),
-      drawer: Drawer(
-        child: SafeArea(
-            child: Column(
-          children: [
-            ListTile(
-              dense: true,
-              title: Text("Gerenciamento"),
-              leading: Icon(Icons.home),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              dense: true,
-              title: Text("Motoristas Cadastrados"),
-              leading: Icon(Icons.person),
-              onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => ListDriver()));
-              },
-            ),
-            ListTile(
-              dense: true,
-              title: Text("Veículos Cadastrados"),
-              leading: Icon(Icons.local_shipping),
-              onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => ListTruck()));
-              },
-            ),
-            ListTile(
-              dense: true,
-              title: Text("Configurações"),
-              leading: Icon(Icons.settings),
-              onTap: () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (_) =>
-                //             DriveHomePage())); 
-              },
-            ),
-            ListTile(
-              dense: true,
-              title: Text("Sair"),
-              leading: Icon(Icons.exit_to_app),
-              onTap: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                    (Route<dynamic> route) => false);
-              },
-            )
-          ],
-        )),
-      ),
+      // drawer: Drawer(
+      //   child: SafeArea(
+      //       child: Column(
+      //     children: [
+      //       ListTile(
+      //         dense: true,
+      //         title: Text("Gerenciamento"),
+      //         leading: Icon(Icons.home),
+      //         onTap: () {
+      //           Navigator.pop(context);
+      //         },
+      //       ),
+      //       ListTile(
+      //         dense: true,
+      //         title: Text("Motoristas Cadastrados"),
+      //         leading: Icon(Icons.person),
+      //         onTap: () {
+      //           Navigator.push(
+      //               context, MaterialPageRoute(builder: (_) => ListDriver()));
+      //         },
+      //       ),
+      //       ListTile(
+      //         dense: true,
+      //         title: Text("Veículos Cadastrados"),
+      //         leading: Icon(Icons.local_shipping),
+      //         onTap: () {
+      //           Navigator.push(
+      //               context, MaterialPageRoute(builder: (_) => ListTruck()));
+      //         },
+      //       ),
+      //       ListTile(
+      //         dense: true,
+      //         title: Text("Configurações"),
+      //         leading: Icon(Icons.settings),
+      //         onTap: () {
+      //           // Navigator.push(
+      //           //     context,
+      //           //     MaterialPageRoute(
+      //           //         builder: (_) =>
+      //           //             DriveHomePage())); 
+      //         },
+      //       ),
+      //       ListTile(
+      //         dense: true,
+      //         title: Text("Sair"),
+      //         leading: Icon(Icons.exit_to_app),
+      //         onTap: () {
+      //           Navigator.of(context).pushAndRemoveUntil(
+      //               MaterialPageRoute(builder: (context) => LoginPage()),
+      //               (Route<dynamic> route) => false);
+      //         },
+      //       )
+      //     ],
+      //   )),
+      // ),
       body: SingleChildScrollView(
           child: Column(children: <Widget>[
         Divider(),
