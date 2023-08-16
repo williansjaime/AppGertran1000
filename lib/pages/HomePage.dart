@@ -195,10 +195,10 @@ teste();
                   IconButton(
                       icon: Icon(Icons.arrow_forward_ios),
                       onPressed: () => {
-                            /*Navigator.push(
+                            Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => VehicleAlerts()))*/
+                                    builder: (_) => VehicleAlerts()))
                           },
                       color: Colors.blue),
                 ],
