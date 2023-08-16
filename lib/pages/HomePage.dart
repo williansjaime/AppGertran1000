@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
       required this.HomecountSM,
       required this.Homecountchecklist,
       required this.cnpj});
-      
+
   int HomecountSM, Homecountchecklist;
   final String cnpj;
   @override
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
       required this.cnpj});
   int HomecountSM, Homecountchecklist;
   final String cnpj;
-  
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
   //key for scaffold, required to manually open/close drawer
 
@@ -77,11 +77,11 @@ class _HomePageState extends State<HomePage> {
               title: Text("Configurações"),
               leading: Icon(Icons.settings),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) =>
-                            DriveHomePage())); //action when this menu is pressed
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (_) =>
+                //             DriveHomePage())); 
               },
             ),
             ListTile(

@@ -9,45 +9,9 @@ import 'package:apptestewillians/pages/DriveHomePage.dart';
 import 'package:mask_shifter/mask_shifter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'MapsDrivePoint.dart';
-
 Future<void> saveToken(String token) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString('token', token);
-}
-
-Future<Login> fetchLogin(final String cnpjcpf) async {
-  String ipexterno = 'gertranapi.hopto.org';
-  String ipinterno = '192.168.34.7';
-
-  Uri uri = Uri(
-      scheme: 'https',
-      port: 5000,
-      host: Platform.isLinux ? ipinterno : ipexterno,
-      path: '/users/$cnpjcpf');
-
-  var headers = {
-    "Access-Control-Allow-Origin": "*",
-    'Content-Type': 'application/json',
-    'Accept': '*/*'
-  };
-
-  try {
-    http.Response response = await http.get(uri, headers: headers).timeout(
-      const Duration(seconds: 20),
-      onTimeout: () {
-        return http.Response('Error', 408);
-      },
-    );
-    if (response.statusCode == 200) {
-      print(response.body);
-      return Login.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to load Login');
-    }
-  } catch (e) {
-    return throw Exception(e);
-  }
 }
 
 class LoginPage extends StatefulWidget {
@@ -57,7 +21,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  var controller = new TextEditingController();
+  var cpfcnpj = new TextEditingController();
+  var senha = new TextEditingController();
   Color cor = Color.fromARGB(255, 0, 100, 220);
   void _showDialog() {
     // flutter defined function
@@ -66,9 +31,8 @@ class _LoginPageState extends State<LoginPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: new Text("ERRO CPF/CNPJ"),
-          content: new Text("Favor digitar CPF/CNPJ valido!"),
+          content: new Text("Favor digitar CPF/CNPJ e senha valido!"),
           actions: <Widget>[
-            // usually buttons at the bottom of the dialog
             new TextButton(
               child: new Text("Close"),
               onPressed: () {
@@ -109,16 +73,11 @@ class _LoginPageState extends State<LoginPage> {
                       child: Container(
                           width: 200,
                           height: 150,
-                          /*decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(50.0)),
-                    */
                           child: Image.asset('assets/images/logogertran.png')),
                     ),
                   ),
                   Divider(),
                   Padding(
-                    //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
                     padding: EdgeInsets.symmetric(horizontal: 15),
                     child: TextField(
                         style: TextStyle(color: Colors.black),
@@ -128,30 +87,28 @@ class _LoginPageState extends State<LoginPage> {
                             fillColor: Colors.white,
                             labelText: 'CPF/CNPJ',
                             hintText: 'Digite seu CPF/CNPJ'),
-                        controller: controller,
+                        controller: this.cpfcnpj,
                         inputFormatters: [
                           MaskedTextInputFormatterShifter(
                               maskONE: "XXX.XXX.XXX-XX",
                               maskTWO: "XX.XXX.XXX/XXXX-XX"),
                         ],
                         keyboardType: TextInputType.number),
-
-                    //CNPJValidator.isValid()
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
                         left: 15.0, right: 15.0, top: 15, bottom: 0),
-                    //padding: EdgeInsets.symmetric(horizontal: 15),
                     child: TextField(
-                      style: TextStyle(color: Colors.black),
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(),
-                          labelText: 'Senha',
-                          hintText: 'Digite sua senha'),
-                    ),
+                        style: TextStyle(color: Colors.black),
+                        obscureText: true,
+                        decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(),
+                            labelText: 'Senha',
+                            hintText: 'Digite sua senha'),
+                        controller: this.senha,
+                        keyboardType: TextInputType.number),
                   ),
                   TextButton(
                     onPressed: () {
@@ -170,27 +127,9 @@ class _LoginPageState extends State<LoginPage> {
                         color: cor, borderRadius: BorderRadius.circular(20)),
                     child: TextButton(
                       onPressed: () {
-                        // Navigator.of(context).pushAndRemoveUntil(
-                        //     MaterialPageRoute(
-                        //         builder: (context) => MapsDrivePoints(
-                        //             placa: 'placa',
-                        //             latitude: -19.924693,
-                        //             longitude: -43.942417,
-                        //             datahora: '2023-08-14 15:30:00')),
-                        //     (Route<dynamic> route) => false);
-
-                        // Navigator.of(context).pushAndRemoveUntil(
-                        //     MaterialPageRoute(
-                        //         builder: (context) => HomePage(
-                        //               cnpj: '',
-                        //               HomecountSM: 10,
-                        //               Homecountchecklist: 20,
-                        //             )),
-                        //     (Route<dynamic> route) => false);
-
-                        if (controller.text.length == 14 ||
-                            controller.text.length == 18) {
-                          var filter = (((controller.text.replaceAll(".", ""))
+                        if (cpfcnpj.text.length == 14 ||
+                            cpfcnpj.text.length == 18) {
+                          var filter = (((cpfcnpj.text.replaceAll(".", ""))
                                       .replaceAll(".", ""))
                                   .replaceAll(".", ""))
                               .replaceAll("-", "");
@@ -200,10 +139,15 @@ class _LoginPageState extends State<LoginPage> {
                           }
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      LoginValidate(cnpj: filter)),
+                                  builder: (context) => LoginValidate(
+                                      cpfcnpj: filter, senha: senha.text)),
                               (Route<dynamic> route) => false);
                         } else {
+                          /*Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      LoginValidate(cpfcnpj: "", senha: "")),
+                              (Route<dynamic> route) => false);*/
                           _showDialog();
                         }
                       },
@@ -232,14 +176,42 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class LoginValidate extends StatelessWidget {
-  LoginValidate({super.key, required this.cnpj});
+  LoginValidate({super.key, required this.cpfcnpj, required this.senha});
 
-  final String cnpj;
+  final String cpfcnpj;
+  final String senha;
+  late String token = "";
   Future<Login>? futureLogin;
+
+  Future<Login> fetchLogin(final String cnpjcpf, final String senha) async {
+    String url = 'https://api.gertran.zayit.com.br/v1/drivers/mobile/login/';
+
+    Map<String, String> data = {
+      'cpf': cnpjcpf, //cnpjcpf,
+      'password': senha//,
+    };
+    try {
+      http.Response response = await http.post(
+        Uri.parse(url),
+        body: data,
+      );
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        token = json.decode(response.body)["access_token"];
+        saveToken(token);
+        print("Salve Token OK");
+      } else {
+        throw Exception('Failed to load Login');
+      }
+      return Login.fromJson(json.decode(response.body));
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
   @override
   void initState() {
-    futureLogin = fetchLogin(cnpj);
+    futureLogin = fetchLogin(cpfcnpj, senha);
   }
   //HomePage() DriveHomePage()
 
@@ -247,13 +219,12 @@ class LoginValidate extends StatelessWidget {
   Widget build(BuildContext context) {
     initState();
     void _showDialog() {
-      // flutter defined function
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: new Text("ERRO CPF/CNPJ"),
-            content: new Text("Favor digitar CPF/CNPJ valido!"),
+            content: new Text("Favor digitar CPF/CNPJ  e senha valido!"),
             actions: <Widget>[
               // usually buttons at the bottom of the dialog
               new TextButton(
@@ -269,22 +240,28 @@ class LoginValidate extends StatelessWidget {
     }
 
     return FutureBuilder<Login>(
-        future: futureLogin,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return DriveHomePage();
-          } else if (snapshot.hasData) {
-            return snapshot.data!.senha == true
-                ? HomePage(
-                    HomecountSM: snapshot.data!.countSM,
-                    Homecountchecklist: snapshot.data!.countchecklist,
-                    cnpj: cnpj)
-                : DriveHomePage();
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        });
+      future: futureLogin,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const LoginPage(); /*DriveHomePage(
+            cpfcnpj: cpfcnpj,
+            token: token,
+          ); */ //
+        } else if (snapshot.hasData) {
+          return DriveHomePage(
+            cpfcnpj: cpfcnpj,
+          ); 
+          //snapshot.data!.token != ""?
+          /*? HomePage(
+                  HomecountSM: snapshot.data!.countSM,
+                  Homecountchecklist: snapshot.data!.countchecklist,
+                  cnpj: cnpj)*/
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
   }
 }

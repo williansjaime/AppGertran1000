@@ -150,11 +150,11 @@ class RouteValidade extends StatelessWidget {
     return FutureBuilder (
         future: futureListReturn,
         builder: (context, snapshot) {
-        if (snapshot.hasError) 
-        {
-          return  DriveHomePage();//const LoginPage();           
-        } 
-        else if(snapshot.hasData)
+        // if (snapshot.hasError) 
+        // {
+        //   return  DriveHomePage();//const LoginPage();           
+        // } 
+        if(snapshot.hasData)
         {
           initState();
           return  OSMFlutter(

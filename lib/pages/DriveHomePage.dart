@@ -1,37 +1,138 @@
+import 'dart:io';
 import 'dart:async';
-import 'dart:math';
-import '../controller/ImageInput.dart';
 import 'package:flutter/material.dart';
 import '../controller/RoutePageDrive.dart';
 import 'package:apptestewillians/pages/DriveComVehicle.dart';
 import "package:apptestewillians/pages/login.page.dart";
-import 'package:apptestewillians/controller/LocationPosition.dart';
-import 'package:geocoding/geocoding.dart';
-import '../controller/GetIDTecnologia.dart';
-import 'package:bmnav/bmnav.dart' as bmnav;
-import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:bmnav/bmnav.dart' as bmnav;
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+String tokenGlobal = "";
+Future<void> fetchPosicion(
+    final String latitude, final String longitude, final String token) async {
+  String url = 'https://api.gertran.zayit.com.br/v1/drivers/mobile/position/';
+
+  Map<String, String> data = {
+    'latitude': latitude,
+    'longitude': longitude,
+    'token': token,
+  };
+  tokenGlobal = token;
+  try {
+    http.Response response = await http.post(
+      Uri.parse(url),
+      body: data,
+    );
+    print(data);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      print('Resposta 2: ${response.body}');
+    } else {
+      throw Exception('Falha para envira a posição');
+    }
+  } catch (e) {
+    throw Exception(e);
+  }
+}
 
 class DriveHomePage extends StatefulWidget {
-  //const DriveHomePage({super.key});
+  const DriveHomePage({super.key, required this.cpfcnpj});
+  final String cpfcnpj;
   @override
-  State<DriveHomePage> createState() => _DriveHomePageState();
+  State<DriveHomePage> createState() => _DriveHomePageState(cpfcnpj: cpfcnpj);
 }
 
 class _DriveHomePageState extends State<DriveHomePage> {
+  _DriveHomePageState({required this.cpfcnpj});
+  final String cpfcnpj;
+
   bool _isAlwaysShown = true;
   bool _showTrackOnHover = false;
   @override
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  //LocationPosition location = new LocationPosition();
+  late Timer _timer;
+  late Geolocator _geolocator;
+  late Position newPosition; // Initialize with default value
+  late DateTime now = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    _geolocator = Geolocator();
+    newPosition = Position(
+      latitude: 0,
+      longitude: 0,
+      timestamp: DateTime.now(), // Provide the timestamp here
+      altitude: 0,
+      accuracy: 0,
+      heading: 0,
+      speed: 0,
+      speedAccuracy: 0,
+    );
+    _timer = Timer.periodic(Duration(minutes: 5), _sendPosition);
+    now = DateTime.now();
+  }
+
+  void _sendPosition(Timer timer) async {
+    try {
+      Position _newPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high, // Adjust as needed
+        forceAndroidLocationManager: false, // Adjust as needed
+        timeLimit: Duration(seconds: 10), // Adjust the time limit as needed
+      );
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token_global = prefs.getString('token');
+      String tokenValue = "";
+      if (token_global != null) {
+        tokenValue = token_global.toString();
+      }
+      fetchPosicion(
+          '${newPosition.latitude}', '${newPosition.longitude}', tokenValue);
+      // Rest of your code...
+    } catch (e) {
+      if (e is TimeoutException) {
+        print('Timeout: Unable to obtain location within the time limit.');
+      } else if (e is PermissionDeniedException) {
+        print('Permission denied: The user denied access to location.');
+      } else if (e is LocationServiceDisabledException) {
+        print(
+            'Location service disabled: User allowed access but location services are disabled.');
+      } else {
+        print('Error obtaining position: $e');
+      }
+    }
+  }
+
+  /*@override
+  void initState() {
+    super.initState();
+
+    
+  }
+
+  Future<void> checkLocationPermission() async {
+    final status = await Permission.locationWhenInUse.status;
+    setState(() {
+      _permissionStatus = status;
+    });
+
+    if (status.isGranted) {
+      setState(() {
+        requestLocation();
+      });
+    }
+  }*/
+
   final List rota = [DriveComVehicle(), LoginPage()];
 
   File? _storedImage;
   _takePicture() async {
     final ImagePicker _picker = ImagePicker();
-    XFile imageFile = await _picker.pickImage( 
+    XFile imageFile = await _picker.pickImage(
       source: ImageSource.camera,
       maxWidth: 600,
     ) as XFile;
@@ -39,11 +140,6 @@ class _DriveHomePageState extends State<DriveHomePage> {
     setState(() {
       _storedImage = File(imageFile.path);
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -56,11 +152,19 @@ class _DriveHomePageState extends State<DriveHomePage> {
         title: Row(
           children: <Widget>[
             Container(
-              width: mediaQuery * 0.7,
-              //color: Colors.black,
+              width: mediaQuery * 0.6,
               child: Text("Motorista"),
             ),
             SizedBox(width: 10),
+            IconButton(
+              icon: Icon(
+                Icons.pin_drop,
+                color: Colors.white,
+                size: 40,
+              ),
+              onPressed: () => {Enviar()},
+              color: Color.fromARGB(255, 0, 146, 220),
+            ),
             IconButton(
               icon: Icon(
                 Icons.camera_alt_outlined,
@@ -121,12 +225,12 @@ class _DriveHomePageState extends State<DriveHomePage> {
                       size: 40,
                     ),
                     onPressed: () => {
-                      Navigator.push(
+                      /*Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (_) => MapsRouteDrive(
                                     cpf: "09358076755",
-                                  )))
+                                  )))*/
                     },
                     color: Color.fromARGB(255, 0, 146, 220),
                   ),
@@ -156,6 +260,18 @@ class _DriveHomePageState extends State<DriveHomePage> {
         SizedBox(
           width: 10,
         ),
+        /*Text(
+          '${now}',
+        ),
+        Text(
+          'Latitude: ${newPosition.latitude}',
+        ),
+        Text(
+          'Longitude: ${newPosition.longitude}',
+        ),*/
+        Text(
+          'ID:${cpfcnpj}',
+        ),
       ])),
       bottomNavigationBar: bmnav.BottomNav(
         onTap: (index) {
@@ -179,5 +295,47 @@ class _DriveHomePageState extends State<DriveHomePage> {
         ],
       ),
     );
+  }
+}
+
+void Enviar() async {
+  try {
+    Position newPosition = Position(
+      latitude: 0,
+      longitude: 0,
+      timestamp: DateTime.now(), // Provide the timestamp here
+      altitude: 0,
+      accuracy: 0,
+      heading: 0,
+      speed: 0,
+      speedAccuracy: 0,
+    );
+    newPosition = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high, // Adjust as needed
+      forceAndroidLocationManager: false, // Adjust as needed
+      timeLimit: Duration(seconds: 10), // Adjust the time limit as needed
+    );
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token_global = prefs.getString('token');
+    String tokenValue = "";
+    if (token_global != null) {
+      tokenValue = token_global.toString();
+    }
+
+    print("Rodando o enviar Forçado");
+    fetchPosicion(
+        '${newPosition.latitude}', '${newPosition.longitude}', tokenValue);
+    // Rest of your code...
+  } catch (e) {
+    if (e is TimeoutException) {
+      print('Timeout: Unable to obtain location within the time limit.');
+    } else if (e is PermissionDeniedException) {
+      print('Permission denied: The user denied access to location.');
+    } else if (e is LocationServiceDisabledException) {
+      print(
+          'Location service disabled: User allowed access but location services are disabled.');
+    } else {
+      print('Error obtaining position: $e');
+    }
   }
 }

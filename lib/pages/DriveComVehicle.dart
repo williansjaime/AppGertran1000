@@ -11,7 +11,9 @@ class DriveComVehicle extends StatefulWidget {
 }
 
 class _DriveComVehicleState extends State<DriveComVehicle> {
-  final List rota = [DriveHomePage(), LoginPage()];
+  final List rota = [
+    //DriveHomePage(), 
+  LoginPage()];
   
   @override
   Widget build(BuildContext context) {
