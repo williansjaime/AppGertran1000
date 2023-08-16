@@ -183,12 +183,55 @@ class LoginValidate extends StatelessWidget {
   late String token = "";
   Future<Login>? futureLogin;
 
+
+
+  bool validateCNPJ(String cnpj) {
+    // Remover caracteres não numéricos
+    cnpj = cnpj.replaceAll(RegExp(r'\D'), '');
+
+    // Verificar se o CNPJ tem 14 dígitos após a remoção de caracteres não numéricos
+    if (cnpj.length != 14) {
+      return false;
+    }
+
+    // Verificar dígitos repetidos (caso especial de CNPJs inválidos)
+    if (RegExp(r'^(\d)\1*$').hasMatch(cnpj)) {
+      return false;
+    }
+
+    // Cálculo dos dígitos verificadores
+    List<int> digits = cnpj.split('').map(int.parse).toList();
+    int calculatedDigit1 =
+        _calculateDigit(digits, [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]);
+    int calculatedDigit2 =
+        _calculateDigit(digits, [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]);
+
+    // Comparar dígitos calculados com dígitos do CNPJ
+    return digits[12] == calculatedDigit1 && digits[13] == calculatedDigit2;
+  }
+
+  int _calculateDigit(List<int> digits, List<int> weights) {
+    int sum = 0;
+    for (int i = 0; i < weights.length; i++) {
+      sum += digits[i] * weights[i];
+    }
+    int remainder = sum % 11;
+    return remainder < 2 ? 0 : 11 - remainder;
+  }
+
   Future<Login> fetchLogin(final String cnpjcpf, final String senha) async {
-    String url = 'https://api.gertran.zayit.com.br/v1/drivers/mobile/login/';
+    String url = '';
+    if (validateCNPJ(cnpjcpf)) {
+      print('cnpj');
+      url = 'https://api.gertran.zayit.com.br/v1/drivers/mobile/login/';
+    } else {
+      url = 'https://api.gertran.zayit.com.br/v1/drivers/mobile/login/';
+      print('cpf');
+    }
 
     Map<String, String> data = {
       'cpf': cnpjcpf, //cnpjcpf,
-      'password': senha//,
+      'password': senha //,
     };
     try {
       http.Response response = await http.post(
@@ -250,7 +293,7 @@ class LoginValidate extends StatelessWidget {
         } else if (snapshot.hasData) {
           return DriveHomePage(
             cpfcnpj: cpfcnpj,
-          ); 
+          );
           //snapshot.data!.token != ""?
           /*? HomePage(
                   HomecountSM: snapshot.data!.countSM,
