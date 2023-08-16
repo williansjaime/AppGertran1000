@@ -141,12 +141,12 @@ teste();
                   IconButton(
                       icon: Icon(Icons.arrow_forward_ios),
                       onPressed: () => {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (_) => VehicleStatus(
-                            //               cnpj: cnpj,
-                            //             )))
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => VehicleStatus(
+                                          cnpj: cnpj,
+                                        )))
                           },
                       color: Colors.blue),
                 ],
