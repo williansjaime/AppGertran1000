@@ -79,7 +79,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Divider(),
-                  Divider(),
                   if (tipoUsuario == false)
                     Container(
                       height: 50,
@@ -87,7 +86,11 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: BoxDecoration(
                           color: cor, borderRadius: BorderRadius.circular(20)),
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            tipoUsuario = true;
+                          });
+                        },
                         child: Text(
                           'Motorista',
                           style: TextStyle(color: Colors.white, fontSize: 25),
@@ -103,7 +106,11 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: BoxDecoration(
                           color: cor, borderRadius: BorderRadius.circular(20)),
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            tipoUsuario = true;
+                          });
+                        },
                         child: Text(
                           'Cliente',
                           style: TextStyle(color: Colors.white, fontSize: 25),
@@ -190,6 +197,25 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         child: Text(
                           'Entrar',
+                          style: TextStyle(color: Colors.white, fontSize: 25),
+                        ),
+                      ),
+                    ),
+                  Divider(),
+                  if (tipoUsuario == true)
+                    Container(
+                      height: 50,
+                      width: 150,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 165, 33, 66), borderRadius: BorderRadius.circular(20)),
+                      child: TextButton(
+                        onPressed: () {
+                          setState(() {
+                            tipoUsuario = false;
+                          });
+                        },
+                        child: Text(
+                          'Voltar',
                           style: TextStyle(color: Colors.white, fontSize: 25),
                         ),
                       ),
