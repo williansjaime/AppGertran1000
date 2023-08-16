@@ -24,6 +24,8 @@ class _LoginPageState extends State<LoginPage> {
   var cpfcnpj = new TextEditingController();
   var senha = new TextEditingController();
   Color cor = Color.fromARGB(255, 0, 100, 220);
+  bool tipoUsuario = false;
+
   void _showDialog() {
     // flutter defined function
     showDialog(
@@ -77,94 +79,121 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Divider(),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: TextField(
-                        style: TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            fillColor: Colors.white,
-                            labelText: 'CPF/CNPJ',
-                            hintText: 'Digite seu CPF/CNPJ'),
-                        controller: this.cpfcnpj,
-                        inputFormatters: [
-                          MaskedTextInputFormatterShifter(
-                              maskONE: "XXX.XXX.XXX-XX",
-                              maskTWO: "XX.XXX.XXX/XXXX-XX"),
-                        ],
-                        keyboardType: TextInputType.number),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 15.0, right: 15.0, top: 15, bottom: 0),
-                    child: TextField(
-                        style: TextStyle(color: Colors.black),
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(),
-                            labelText: 'Senha',
-                            hintText: 'Digite sua senha'),
-                        controller: this.senha,
-                        keyboardType: TextInputType.number),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      //TODO FORGOT PASSWORD SCREEN GOES HERE
-                    },
-                    child: Text(
-                      'Não sabe a Senha? Favor entrar em contato com a Gertran',
-                      style: TextStyle(color: cor, fontSize: 10),
-                    ),
-                  ),
                   Divider(),
-                  Container(
-                    height: 50,
-                    width: 250,
-                    decoration: BoxDecoration(
-                        color: cor, borderRadius: BorderRadius.circular(20)),
-                    child: TextButton(
+                  if (tipoUsuario == false)
+                    Container(
+                      height: 50,
+                      width: 250,
+                      decoration: BoxDecoration(
+                          color: cor, borderRadius: BorderRadius.circular(20)),
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Motorista',
+                          style: TextStyle(color: Colors.white, fontSize: 25),
+                        ),
+                      ),
+                    ),
+                  Divider(),
+                  Divider(),
+                  if (tipoUsuario == false)
+                    Container(
+                      height: 50,
+                      width: 250,
+                      decoration: BoxDecoration(
+                          color: cor, borderRadius: BorderRadius.circular(20)),
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Cliente',
+                          style: TextStyle(color: Colors.white, fontSize: 25),
+                        ),
+                      ),
+                    ),
+                  if (tipoUsuario == true)
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: TextField(
+                          style: TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              filled: true,
+                              fillColor: Colors.white,
+                              labelText: 'CPF',
+                              hintText: 'Digite seu CPF/CNPJ'),
+                          controller: this.cpfcnpj,
+                          inputFormatters: [
+                            MaskedTextInputFormatterShifter(
+                                maskONE: "XXX.XXX.XXX-XX",
+                                maskTWO: "XX.XXX.XXX/XXXX-XX"),
+                          ],
+                          keyboardType: TextInputType.number),
+                    ),
+                  if (tipoUsuario == true)
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15.0, right: 15.0, top: 15, bottom: 0),
+                      child: TextField(
+                          style: TextStyle(color: Colors.black),
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(),
+                              labelText: 'Senha',
+                              hintText: 'Digite sua senha'),
+                          controller: this.senha,
+                          keyboardType: TextInputType.number),
+                    ),
+                  if (tipoUsuario == true)
+                    TextButton(
                       onPressed: () {
-                        if (cpfcnpj.text.length == 14 ||
-                            cpfcnpj.text.length == 18) {
-                          var filter = (((cpfcnpj.text.replaceAll(".", ""))
-                                      .replaceAll(".", ""))
-                                  .replaceAll(".", ""))
-                              .replaceAll("-", "");
-                          final exp = RegExp(r"/");
-                          if (exp.hasMatch(filter)) {
-                            filter = filter.replaceAll("/", "");
-                          }
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => LoginValidate(
-                                      cpfcnpj: filter, senha: senha.text)),
-                              (Route<dynamic> route) => false);
-                        } else {
-                          /*Navigator.of(context).pushAndRemoveUntil(
+                        //TODO FORGOT PASSWORD SCREEN GOES HERE
+                      },
+                      child: Text(
+                        'Não sabe a Senha? Favor entrar em contato com a Gertran',
+                        style: TextStyle(color: cor, fontSize: 10),
+                      ),
+                    ),
+                  Divider(),
+                  if (tipoUsuario == true)
+                    Container(
+                      height: 50,
+                      width: 250,
+                      decoration: BoxDecoration(
+                          color: cor, borderRadius: BorderRadius.circular(20)),
+                      child: TextButton(
+                        onPressed: () {
+                          if (cpfcnpj.text.length == 14 ||
+                              cpfcnpj.text.length == 18) {
+                            var filter = (((cpfcnpj.text.replaceAll(".", ""))
+                                        .replaceAll(".", ""))
+                                    .replaceAll(".", ""))
+                                .replaceAll("-", "");
+                            final exp = RegExp(r"/");
+                            if (exp.hasMatch(filter)) {
+                              filter = filter.replaceAll("/", "");
+                            }
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => LoginValidate(
+                                        cpfcnpj: filter, senha: senha.text)),
+                                (Route<dynamic> route) => false);
+                          } else {
+                            /*Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
                                   builder: (context) =>
                                       LoginValidate(cpfcnpj: "", senha: "")),
                               (Route<dynamic> route) => false);*/
-                          _showDialog();
-                        }
-                      },
-                      child: Text(
-                        'Entrar',
-                        style: TextStyle(color: Colors.white, fontSize: 25),
+                            _showDialog();
+                          }
+                        },
+                        child: Text(
+                          'Entrar',
+                          style: TextStyle(color: Colors.white, fontSize: 25),
+                        ),
                       ),
                     ),
-                  ),
-                  /*Column( 
-              mainAxisAlignment: MainAxisAlignment.end,
-               children: <Widget>[
-              TextButton(onPressed: (){}, child: Text('Novo usuário? Criar conta', style: TextStyle(color: Colors.white)
-              ),
-              ),
-              ]
-            ),*/
                 ],
               ),
             ),
@@ -283,7 +312,6 @@ class LoginValidate extends StatelessWidget {
     return FutureBuilder<Login>(
       future: futureLogin,
       builder: (context, snapshot) {
-
         //return HomePage(HomecountSM: 10, Homecountchecklist: 15, cnpj: cpfcnpj);
 
         // if (validateCNPJ(cpfcnpj)) {
@@ -323,3 +351,15 @@ class LoginValidate extends StatelessWidget {
     );
   }
 }
+
+
+
+
+                  /*Column( 
+              mainAxisAlignment: MainAxisAlignment.end,
+               children: <Widget>[
+              TextButton(onPressed: (){}, child: Text('Novo usuário? Criar conta', style: TextStyle(color: Colors.white)
+              ),
+              ),
+              ]
+            ),*/
