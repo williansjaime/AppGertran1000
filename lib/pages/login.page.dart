@@ -183,8 +183,6 @@ class LoginValidate extends StatelessWidget {
   late String token = "";
   Future<Login>? futureLogin;
 
-
-
   bool validateCNPJ(String cnpj) {
     // Remover caracteres não numéricos
     cnpj = cnpj.replaceAll(RegExp(r'\D'), '');
@@ -222,11 +220,11 @@ class LoginValidate extends StatelessWidget {
   Future<Login> fetchLogin(final String cnpjcpf, final String senha) async {
     String url = '';
     if (validateCNPJ(cnpjcpf)) {
-      print('cnpj');
+      //print('cnpj');
       url = 'https://api.gertran.zayit.com.br/v1/drivers/mobile/login/';
     } else {
       url = 'https://api.gertran.zayit.com.br/v1/drivers/mobile/login/';
-      print('cpf');
+      //print('cpf');
     }
 
     Map<String, String> data = {
@@ -285,6 +283,12 @@ class LoginValidate extends StatelessWidget {
     return FutureBuilder<Login>(
       future: futureLogin,
       builder: (context, snapshot) {
+        if (validateCNPJ(cpfcnpj)) {
+          print('cnpj');
+        } else {
+          print('cpf');
+        }
+
         if (snapshot.hasError) {
           return const LoginPage(); /*DriveHomePage(
             cpfcnpj: cpfcnpj,
