@@ -283,17 +283,14 @@ class LoginValidate extends StatelessWidget {
     return FutureBuilder<Login>(
       future: futureLogin,
       builder: (context, snapshot) {
-        return DriveHomePage(
-          cpfcnpj: cpfcnpj,
-        );
 
-        return HomePage(HomecountSM: 10, Homecountchecklist: 15, cnpj: cpfcnpj);
+        //return HomePage(HomecountSM: 10, Homecountchecklist: 15, cnpj: cpfcnpj);
 
-        if (validateCNPJ(cpfcnpj)) {
-          print('cnpj');
-        } else {
-          print('cpf');
-        }
+        // if (validateCNPJ(cpfcnpj)) {
+        //   print('cnpj');
+        // } else {
+        //   print('cpf');
+        // }
 
         if (snapshot.hasError) {
           return const LoginPage(); /*DriveHomePage(
