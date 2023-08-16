@@ -295,9 +295,17 @@ class LoginValidate extends StatelessWidget {
             token: token,
           ); */ //
         } else if (snapshot.hasData) {
-          return DriveHomePage(
-            cpfcnpj: cpfcnpj,
-          );
+          if (validateCNPJ(cpfcnpj)) {
+            return HomePage(
+                HomecountSM: snapshot.data!.countSM,
+                Homecountchecklist: snapshot.data!.countchecklist,
+                cnpj: cpfcnpj);
+          } else {
+            return DriveHomePage(
+              cpfcnpj: cpfcnpj,
+            );
+          }
+
           //snapshot.data!.token != ""?
           /*? HomePage(
                   HomecountSM: snapshot.data!.countSM,
