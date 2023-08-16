@@ -301,7 +301,7 @@ class LoginValidate extends StatelessWidget {
       future: futureLogin,
       builder: (context, snapshot) {
         saveToken('teste123');
-        return HomePage(HomecountSM: 10, Homecountchecklist: 15, cnpj: cpfcnpj);
+        //return HomePage(HomecountSM: 10, Homecountchecklist: 15, cnpj: cpfcnpj);
 
         // if (validateCNPJ(cpfcnpj)) {
         //   print('cnpj');
@@ -315,7 +315,7 @@ class LoginValidate extends StatelessWidget {
             token: token,
           ); */ //
         } else if (snapshot.hasData) {
-          if (validateCNPJ(cpfcnpj)) {
+          if (false) {
             return HomePage(
                 HomecountSM: snapshot.data!.countSM,
                 Homecountchecklist: snapshot.data!.countchecklist,
