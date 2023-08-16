@@ -218,8 +218,8 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text("SOLICITAÇÕES DE MONITORAMENTO"),
-                        Text(HomecountSM.toString(),
-                            style: TextStyle(color: Colors.grey))
+                        // Text(HomecountSM.toString(),
+                        //     style: TextStyle(color: Colors.grey))
                       ],
                     ),
                   ),
@@ -261,8 +261,8 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text("CHECKLISTS"),
-                        Text(Homecountchecklist.toString(),
-                            style: TextStyle(color: Colors.grey))
+                        // Text(Homecountchecklist.toString(),
+                        //     style: TextStyle(color: Colors.grey))
                       ],
                     ),
                   ),
