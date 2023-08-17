@@ -141,12 +141,12 @@ teste();
                   IconButton(
                       icon: Icon(Icons.arrow_forward_ios),
                       onPressed: () => {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => VehicleStatus(
-                                          cnpj: cnpj,
-                                        )))
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (_) => VehicleStatus(
+                            //               cnpj: cnpj,
+                            //             )))
                           },
                       color: Colors.blue),
                 ],
@@ -155,58 +155,58 @@ teste();
           ),
         ),
         Divider(),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Container(
-              height: 70,
-              color: Colors.white,
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    color: Colors.red,
-                    width: 70,
-                    height: 70,
-                    child: IconButton(
-                        icon: Icon(
-                          Icons.bus_alert_rounded,
-                          size: 60,
-                        ),
-                        onPressed: () => {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => VehicleAlerts()))
-                            },
-                        color: Colors.white),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("ALERTAS DE VEÍCULOS"),
-                        Text("", style: TextStyle(color: Colors.grey)),
-                      ],
-                    ),
-                  ),
-                  IconButton(
-                      icon: Icon(Icons.arrow_forward_ios),
-                      onPressed: () => {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => VehicleAlerts()))
-                          },
-                      color: Colors.blue),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Divider(),
+        // Padding(
+        //   padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+        //   child: ClipRRect(
+        //     borderRadius: BorderRadius.circular(10),
+        //     child: Container(
+        //       height: 70,
+        //       color: Colors.white,
+        //       child: Row(
+        //         children: <Widget>[
+        //           Container(
+        //             color: Colors.red,
+        //             width: 70,
+        //             height: 70,
+        //             child: IconButton(
+        //                 icon: Icon(
+        //                   Icons.bus_alert_rounded,
+        //                   size: 60,
+        //                 ),
+        //                 onPressed: () => {
+        //                       Navigator.push(
+        //                           context,
+        //                           MaterialPageRoute(
+        //                               builder: (_) => VehicleAlerts()))
+        //                     },
+        //                 color: Colors.white),
+        //           ),
+        //           SizedBox(width: 10),
+        //           Expanded(
+        //             child: Column(
+        //               mainAxisAlignment: MainAxisAlignment.center,
+        //               crossAxisAlignment: CrossAxisAlignment.start,
+        //               children: <Widget>[
+        //                 Text("ALERTAS DE VEÍCULOS"),
+        //                 Text("", style: TextStyle(color: Colors.grey)),
+        //               ],
+        //             ),
+        //           ),
+        //           IconButton(
+        //               icon: Icon(Icons.arrow_forward_ios),
+        //               onPressed: () => {
+        //                     Navigator.push(
+        //                         context,
+        //                         MaterialPageRoute(
+        //                             builder: (_) => VehicleAlerts()))
+        //                   },
+        //               color: Colors.blue),
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        // Divider(),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
           child: ClipRRect(

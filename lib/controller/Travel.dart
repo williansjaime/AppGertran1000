@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
+import 'package:apptestewillians/repositories/TravelRepository.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +11,9 @@ import '../pages/MapsDrivePoint.dart';
 import '../models/Posicao.dart';
 //import '../pages/HomePage.dart';
 import '../models/Perifericos.dart';
-
+import '../repositories/SMRepository.dart';
+import '../repositories/SMRepository_mock.dart';
+import '../repositories/TravelRepository_mock.dart';
 
 List<ModelSM> travelList = [];
 List<Posicao> listPosicao = [];
@@ -70,8 +73,7 @@ Future<List<ModelSM>> fetchModelSM(final String cnpj) async {
   }
 }
 
-Future<Posicao> fetchPosicao(final String placa) async 
-{
+Future<Posicao> fetchPosicao(final String placa) async {
   String ipexterno = 'gertranapi.hopto.org';
   String ipinterno = '192.168.34.7';
 
@@ -133,8 +135,7 @@ Future<List<Perifericos>> fetchPeriferico(final String placa) async {
     if (response.statusCode == 200) {
       final body = json.decode(response.body);
 
-      for (var bod in body.values) 
-      {
+      for (var bod in body.values) {
         listPeriferico.add(Perifericos.fromJson(bod));
       }
       print(listPeriferico);
@@ -148,28 +149,29 @@ Future<List<Perifericos>> fetchPeriferico(final String placa) async {
   }
 }
 
-
-class _HomeTravel extends State<HomeTravel> 
-{
+class _HomeTravel extends State<HomeTravel> {
   _HomeTravel({required this.cnpj});
-  
+
   final String cnpj;
   late TravelList trevel;
   late Future<List<ModelSM>> futurelist;
-  late Future<List<ModelSM>> filterfuturelist;
-  late Future<List<Perifericos>> filterFutureList;
+  //late Future<List<ModelSM>> filterfuturelist;
+  //late Future<List<Perifericos>> filterFutureList;
 
   @override
-  Widget build(BuildContext context) 
-  {
+  Widget build(BuildContext context) {
     return Scaffold(body: buildContainer());
   }
 
-  void initState() 
-  {
-    filterFutureList  = fetchPeriferico("RFX6E84");
-    print(filterFutureList);
-    futurelist = fetchModelSM(cnpj);
+  void initState() {
+    //filterFutureList  = fetchPeriferico("RFX6E84");
+    TravelRepository travelRepository = TravelRepositoryMock();
+    //filterFutureList = travelRepository.fetchPeriferico("RFX6E84");
+    //print(filterFutureList);
+    SMModelRepository modelRepository = SMRepositoryMock();
+
+    //futurelist = fetchModelSM(cnpj);
+    futurelist = modelRepository.fetchModelSM();
   }
 
   buildContainer() {
@@ -180,8 +182,7 @@ class _HomeTravel extends State<HomeTravel>
           return const Center(
             child: Text(''),
           );
-        } else if (snapshot.hasData) 
-        {
+        } else if (snapshot.hasData) {
           return CardLIst(modelsm: snapshot.data!);
         } else {
           return const Center(
@@ -230,7 +231,8 @@ class CardLIst extends StatelessWidget {
                                     modelsm[index].PlacaCV != null &&
                                         (listPosicao.indexWhere((item) =>
                                                 item.PlacaCv ==
-                                                modelsm[index].PlacaCV)) >= 0)
+                                                modelsm[index].PlacaCV)) >=
+                                            0)
                                 ? {
                                     //listPosicao.indexWhere((item) => item.PlacaCv == modelsm[index].PlacaCV)
                                     Navigator.push(
@@ -266,8 +268,11 @@ class CardLIst extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "${modelsm[index].SM} - ${modelsm[index].PlacaCV != null ? modelsm[index].PlacaCV + " - " : ""}${DateFormat('dd/MM/y hh:mm',).format(DateTime.parse(modelsm[index].DataAlter))}"
-                              ,style: const TextStyle(fontWeight: FontWeight.bold),
+                              "${modelsm[index].SM} - ${modelsm[index].PlacaCV != null ? modelsm[index].PlacaCV + " - " : ""}${DateFormat(
+                                'dd/MM/y hh:mm',
+                              ).format(DateTime.parse(modelsm[index].DataAlter))}",
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 5),
                             (modelsm[index].PlacaCV != "" ||
@@ -278,7 +283,8 @@ class CardLIst extends StatelessWidget {
                                 : Text(""),
                             SizedBox(height: 8),
                             Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: <Widget>[
                                   Icon(
@@ -309,7 +315,9 @@ class CardLIst extends StatelessWidget {
                                     Icons.speed,
                                     color: Color.fromARGB(255, 15, 15, 15),
                                   ),
-                                  Text("${0}Km/h",style: const TextStyle(fontWeight: FontWeight.bold)),
+                                  Text("${0}Km/h",
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold)),
                                 ]),
                           ],
                         ),
@@ -324,8 +332,7 @@ class CardLIst extends StatelessWidget {
   }
 }
 
-class PosicaoList extends StatelessWidget 
-{
+class PosicaoList extends StatelessWidget {
   PosicaoList({super.key, required this.placa});
   final String placa;
   late Future<Posicao> posicao;
@@ -351,11 +358,9 @@ class PosicaoList extends StatelessWidget
                 : "",
             // style: TextStyle(fontSize: 10),
           );
-        } 
-        else 
-        {
+        } else {
           return const Center(
-            child: Text(''), 
+            child: Text(''),
           );
         }
       },
