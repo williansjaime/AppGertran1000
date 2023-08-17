@@ -27,9 +27,8 @@ Future<void> fetchPosicion(
       Uri.parse(url),
       body: data,
     );
-    print(data);
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      print('Resposta 2: ${response.body}');
+      //print('Resposta 2: ${response.body}');
     } else {
       throw Exception('Falha para envira a posição');
     }
@@ -276,10 +275,13 @@ class _DriveHomePageState extends State<DriveHomePage> {
       bottomNavigationBar: bmnav.BottomNav(
         onTap: (index) {
           if (index == 2) {
+
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => rota[index]),
                 (Route<dynamic> route) => false);
           } else {
+                      saveToken("");
+                      print('sair');
             Navigator.push(
                 context, MaterialPageRoute(builder: (_) => rota[index]));
           }
@@ -322,10 +324,8 @@ void Enviar() async {
       tokenValue = token_global.toString();
     }
 
-    print("Rodando o enviar Forçado");
     fetchPosicion(
         '${newPosition.latitude}', '${newPosition.longitude}', tokenValue);
-    // Rest of your code...
   } catch (e) {
     if (e is TimeoutException) {
       print('Timeout: Unable to obtain location within the time limit.');

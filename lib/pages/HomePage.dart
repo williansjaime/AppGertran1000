@@ -36,18 +36,9 @@ class _HomePageState extends State<HomePage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   //key for scaffold, required to manually open/close drawer
 
-  void teste ()async {
-    SharedPreferences te = await SharedPreferences.getInstance();
-    String? token_global111 = te.getString('token');
-    print(token_global111);
-  }
-
   @override
   Widget build(BuildContext context) {
      
-teste();
-
-
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(

@@ -14,6 +14,11 @@ Future<void> saveToken(String token) async {
   await prefs.setString('token', token);
 }
 
+Future<void> saveCpf(String cpf) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('cpf', cpf);
+}
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
   @override
@@ -27,6 +32,22 @@ class _LoginPageState extends State<LoginPage> {
   bool tipoUsuario = false;
   bool motorista = false;
 
+  void verificarSeLogado() async {
+    SharedPreferences te = await SharedPreferences.getInstance();
+    String? token_global111 = te.getString('token');
+
+    if (token_global111 != "") {
+      String? cccc = te.getString('cpf');
+      print(token_global111);
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (context) => DriveHomePage(
+                    cpfcnpj: cccc ?? "",
+                  )),
+          (Route<dynamic> route) => false);
+    }
+  }
+
   void _showDialog() {
     // flutter defined function
     showDialog(
@@ -34,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: new Text("ERRO CPF/CNPJ"),
-          content: new Text("Favor digitar CPF/CNPJ e senha valido!"),
+          content: new Text("Favor digitar CPF e senha valido!"),
           actions: <Widget>[
             new TextButton(
               child: new Text("Close"),
@@ -50,6 +71,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    verificarSeLogado();
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -130,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                               filled: true,
                               fillColor: Colors.white,
                               labelText: 'CPF',
-                              hintText: 'Digite seu CPF/CNPJ'),
+                              hintText: 'Digite seu CPF'),
                           controller: this.cpfcnpj,
                           inputFormatters: [
                             MaskedTextInputFormatterShifter(
@@ -187,7 +210,9 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) => LoginValidate(
-                                        cpfcnpj: filter, senha: senha.text, motorista: motorista)),
+                                        cpfcnpj: filter,
+                                        senha: senha.text,
+                                        motorista: motorista)),
                                 (Route<dynamic> route) => false);
                           } else {
                             _showDialog();
@@ -245,17 +270,12 @@ class LoginValidate extends StatelessWidget {
   Future<Login> fetchLogin(final String cnpjcpf, final String senha) async {
     String url = '';
     if (motorista) {
-      print('motorista');
       url = 'https://api.gertran.zayit.com.br/v1/drivers/mobile/login/';
     } else {
       url = 'https://api.gertran.zayit.com.br/v1/drivers/mobile/login/';
-      print('cliente');
     }
 
-    Map<String, String> data = {
-      'cpf': cnpjcpf, //cnpjcpf,
-      'password': senha //,
-    };
+    Map<String, String> data = {'cpf': cnpjcpf, 'password': senha};
 
     try {
       http.Response response = await http.post(
@@ -266,7 +286,7 @@ class LoginValidate extends StatelessWidget {
       if (response.statusCode >= 200 && response.statusCode < 300) {
         token = json.decode(response.body)["access_token"];
         saveToken(token);
-        //print("Salve Token OK");
+        saveCpf(cpfcnpj);
       } else {
         throw Exception('Failed to load Login');
       }
@@ -276,15 +296,14 @@ class LoginValidate extends StatelessWidget {
     }
   }
 
-  @override
   void initState() {
     futureLogin = fetchLogin(cpfcnpj, senha);
   }
-  //HomePage() DriveHomePage()
 
   @override
   Widget build(BuildContext context) {
     initState();
+
     void _showDialog() {
       showDialog(
         context: context,
@@ -309,20 +328,8 @@ class LoginValidate extends StatelessWidget {
     return FutureBuilder<Login>(
       future: futureLogin,
       builder: (context, snapshot) {
-        //saveToken('teste123');
-        //return HomePage(HomecountSM: 10, Homecountchecklist: 15, cnpj: cpfcnpj);
-
-        // if (validateCNPJ(cpfcnpj)) {
-        //   print('cnpj');
-        // } else {
-        //   print('cpf');
-        // }
-
         if (snapshot.hasError) {
-          return const LoginPage(); /*DriveHomePage(
-            cpfcnpj: cpfcnpj,
-            token: token,
-          ); */ //
+          return const LoginPage();
         } else if (snapshot.hasData) {
           if (motorista) {
             return DriveHomePage(
@@ -334,12 +341,6 @@ class LoginValidate extends StatelessWidget {
                 Homecountchecklist: snapshot.data!.countchecklist,
                 cnpj: cpfcnpj);
           }
-
-          //snapshot.data!.token != ""?
-          /*? HomePage(
-                  HomecountSM: snapshot.data!.countSM,
-                  Homecountchecklist: snapshot.data!.countchecklist,
-                  cnpj: cnpj)*/
         } else {
           return Center(
             child: CircularProgressIndicator(),
