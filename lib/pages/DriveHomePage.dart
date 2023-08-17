@@ -1,15 +1,14 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../controller/RoutePageDrive.dart';
+// import '../controller/RoutePageDrive.dart';
 import 'package:apptestewillians/pages/DriveComVehicle.dart';
 import "package:apptestewillians/pages/login.page.dart";
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/data_keeped.dart';
 
@@ -30,7 +29,7 @@ Future<void> fetchPosicion(
       body: data,
     );
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      //print('Resposta 2: ${response.body}');
+      print('Resposta 2: ${response.body}');
     } else {
       throw Exception('Falha para envira a posição');
     }
@@ -87,12 +86,9 @@ class _DriveHomePageState extends State<DriveHomePage> {
         forceAndroidLocationManager: false, // Adjust as needed
         timeLimit: Duration(seconds: 10), // Adjust the time limit as needed
       );
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token_global = prefs.getString('token');
-      String tokenValue = "";
-      if (token_global != null) {
-        tokenValue = token_global.toString();
-      }
+
+      String tokenValue = await dataKeeped.getToken('token');
+
       fetchPosicion(
           '${newPosition.latitude}', '${newPosition.longitude}', tokenValue);
       // Rest of your code...
@@ -302,6 +298,7 @@ class _DriveHomePageState extends State<DriveHomePage> {
 }
 
 void Enviar() async {
+  DataKeeped dataKeeped = DataKeeped();
   try {
     Position newPosition = Position(
       latitude: 0,
@@ -318,12 +315,8 @@ void Enviar() async {
       forceAndroidLocationManager: false, // Adjust as needed
       timeLimit: Duration(seconds: 10), // Adjust the time limit as needed
     );
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token_global = prefs.getString('token');
-    String tokenValue = "";
-    if (token_global != null) {
-      tokenValue = token_global.toString();
-    }
+
+    String tokenValue = await dataKeeped.getToken('token');
 
     fetchPosicion(
         '${newPosition.latitude}', '${newPosition.longitude}', tokenValue);
