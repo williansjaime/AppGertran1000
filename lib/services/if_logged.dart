@@ -5,16 +5,15 @@ import '../pages/DriveHomePage.dart';
 
 class IfLogged{
     void verificarSeLogado(BuildContext context) async {
-    SharedPreferences te = await SharedPreferences.getInstance();
-    String? token_global111 = te.getString('token');
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String token = sharedPreferences.getString('token') ?? "";
 
-    if (token_global111 != "") {
-      String? cccc = te.getString('cpf');
-      print(token_global111);
+    if (token != "") {
+      String? cpf = sharedPreferences.getString('cpf');
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (context) => DriveHomePage(
-                    cpfcnpj: cccc ?? "",
+                    cpfcnpj: cpf ?? "",
                   )),
           (Route<dynamic> route) => false);
     }
