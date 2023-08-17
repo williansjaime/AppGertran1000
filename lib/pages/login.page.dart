@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 import '../models/Login.dart';
+import '../services/data_keeped.dart';
 import '../services/if_logged.dart';
 import 'HomePage.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +11,6 @@ import 'package:apptestewillians/pages/DriveHomePage.dart';
 import 'package:mask_shifter/mask_shifter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> saveToken(String token) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setString('token', token);
-}
-
-Future<void> saveCpf(String cpf) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setString('cpf', cpf);
-}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -255,6 +247,8 @@ class LoginValidate extends StatelessWidget {
   late String token = "";
   Future<Login>? futureLogin;
 
+  DataKeeped dataKeeped = DataKeeped();
+
   Future<Login> fetchLogin(final String cnpjcpf, final String senha) async {
     String url = '';
     if (motorista) {
@@ -273,8 +267,8 @@ class LoginValidate extends StatelessWidget {
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         token = json.decode(response.body)["access_token"];
-        saveToken(token);
-        saveCpf(cpfcnpj);
+        dataKeeped.saveToken('token', token);
+        dataKeeped.saveToken('cpf', cpfcnpj);
       } else {
         throw Exception('Failed to load Login');
       }
@@ -297,8 +291,8 @@ class LoginValidate extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: new Text("ERRO CPF/CNPJ"),
-            content: new Text("Favor digitar CPF/CNPJ  e senha valido!"),
+            title: new Text("ERRO CPF"),
+            content: new Text("Favor digitar CPF  e senha valido!"),
             actions: <Widget>[
               // usually buttons at the bottom of the dialog
               new TextButton(

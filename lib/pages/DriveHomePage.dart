@@ -11,6 +11,8 @@ import 'package:bmnav/bmnav.dart' as bmnav;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../services/data_keeped.dart';
+
 String tokenGlobal = "";
 Future<void> fetchPosicion(
     final String latitude, final String longitude, final String token) async {
@@ -57,6 +59,8 @@ class _DriveHomePageState extends State<DriveHomePage> {
   late Geolocator _geolocator;
   late Position newPosition; // Initialize with default value
   late DateTime now = DateTime.now();
+
+  DataKeeped dataKeeped = DataKeeped();
 
   @override
   void initState() {
@@ -275,17 +279,14 @@ class _DriveHomePageState extends State<DriveHomePage> {
       bottomNavigationBar: bmnav.BottomNav(
         onTap: (index) {
           if (index == 2) {
-
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => rota[index]),
                 (Route<dynamic> route) => false);
           } else {
-                      saveToken("");
-                      print('sair');
+            dataKeeped.saveToken('token', "");
             Navigator.push(
                 context, MaterialPageRoute(builder: (_) => rota[index]));
           }
-          //getView(index);
         },
         labelStyle: bmnav.LabelStyle(visible: true),
         iconStyle:
