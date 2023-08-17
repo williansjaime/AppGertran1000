@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 import '../models/Login.dart';
+import '../services/if_logged.dart';
 import 'HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -32,21 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   bool tipoUsuario = false;
   bool motorista = false;
 
-  void verificarSeLogado() async {
-    SharedPreferences te = await SharedPreferences.getInstance();
-    String? token_global111 = te.getString('token');
 
-    if (token_global111 != "") {
-      String? cccc = te.getString('cpf');
-      print(token_global111);
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-              builder: (context) => DriveHomePage(
-                    cpfcnpj: cccc ?? "",
-                  )),
-          (Route<dynamic> route) => false);
-    }
-  }
 
   void _showDialog() {
     // flutter defined function
@@ -71,7 +58,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    verificarSeLogado();
+    IfLogged login = IfLogged();
+    login.verificarSeLogado(context);
 
     return Scaffold(
       body: Stack(
