@@ -1,3 +1,4 @@
+import "package:apptestewillians/pages/CheckListPage.dart";
 import 'package:apptestewillians/pages/DriveHomePage.dart';
 import "package:shared_preferences/shared_preferences.dart";
 
@@ -38,7 +39,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-     
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -228,7 +228,6 @@ class _HomePageState extends State<HomePage> {
                   IconButton(
                       icon: Icon(Icons.arrow_forward_ios),
                       onPressed: () => {
-
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -272,16 +271,16 @@ class _HomePageState extends State<HomePage> {
                   IconButton(
                       icon: Icon(Icons.arrow_forward_ios),
                       onPressed: () => {
-                            {}
-                            /* if(Homecountchecklist>0){
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => CheckListPage(cnpj:cnpj)))
-                            }else{
-                              {}
-                            }*/
-                            ,
+                            {
+                              if (false)
+                                {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              CheckListPage(cnpj: cnpj)))
+                                }
+                            },
                           },
                       color: Colors.blue),
                 ],
@@ -291,7 +290,6 @@ class _HomePageState extends State<HomePage> {
         ),
         Divider(),
       ])),
-    
     );
   }
 }
