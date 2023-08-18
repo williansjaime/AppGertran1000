@@ -9,35 +9,11 @@ import 'package:image_picker/image_picker.dart';
 // import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
-import 'package:http/http.dart' as http;
 
 import '../services/data_keeped.dart';
 
 String tokenGlobal = "";
-Future<void> fetchPosicion(
-    final String latitude, final String longitude, final String token) async {
-  String url = 'https://api.gertran.zayit.com.br/v1/drivers/mobile/position/';
 
-  Map<String, String> data = {
-    'latitude': latitude,
-    'longitude': longitude,
-    'token': token,
-  };
-  tokenGlobal = token;
-  // try {
-  //   http.Response response = await http.post(
-  //     Uri.parse(url),
-  //     body: data,
-  //   );
-  //   if (response.statusCode >= 200 && response.statusCode < 300) {
-  //     print('Resposta 2: ${response.body}');
-  //   } else {
-  //     throw Exception('Falha para envira a posição');
-  //   }
-  // } catch (e) {
-  //   throw Exception(e);
-  // }
-}
 
 class DriveHomePage extends StatefulWidget {
   const DriveHomePage({super.key, required this.cpfcnpj});
@@ -65,47 +41,47 @@ class _DriveHomePageState extends State<DriveHomePage> {
   @override
   void initState() {
     super.initState();
-    _geolocator = Geolocator();
-    newPosition = Position(
-      latitude: 0,
-      longitude: 0,
-      timestamp: DateTime.now(), // Provide the timestamp here
-      altitude: 0,
-      accuracy: 0,
-      heading: 0,
-      speed: 0,
-      speedAccuracy: 0,
-    );
-    _timer = Timer.periodic(Duration(minutes: 5), _sendPosition);
-    now = DateTime.now();
+    // _geolocator = Geolocator();
+    // newPosition = Position(
+    //   latitude: 0,
+    //   longitude: 0,
+    //   timestamp: DateTime.now(), // Provide the timestamp here
+    //   altitude: 0,
+    //   accuracy: 0,
+    //   heading: 0,
+    //   speed: 0,
+    //   speedAccuracy: 0,
+    // );
+    // _timer = Timer.periodic(Duration(minutes: 5), _sendPosition);
+    // now = DateTime.now();
   }
 
-  void _sendPosition(Timer timer) async {
-    try {
-      Position _newPosition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high, // Adjust as needed
-        forceAndroidLocationManager: false, // Adjust as needed
-        timeLimit: Duration(seconds: 10), // Adjust the time limit as needed
-      );
+  // void _sendPosition(Timer timer) async {
+  //   try {
+  //     Position _newPosition = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high, // Adjust as needed
+  //       forceAndroidLocationManager: false, // Adjust as needed
+  //       timeLimit: Duration(seconds: 10), // Adjust the time limit as needed
+  //     );
 
-      String tokenValue = await dataKeeped.getToken('token');
+  //     String tokenValue = await dataKeeped.getToken('token');
 
-      fetchPosicion(
-          '${newPosition.latitude}', '${newPosition.longitude}', tokenValue);
-      // Rest of your code...
-    } catch (e) {
-      if (e is TimeoutException) {
-        print('Timeout: Unable to obtain location within the time limit.');
-      } else if (e is PermissionDeniedException) {
-        print('Permission denied: The user denied access to location.');
-      } else if (e is LocationServiceDisabledException) {
-        print(
-            'Location service disabled: User allowed access but location services are disabled.');
-      } else {
-        print('Error obtaining position: $e');
-      }
-    }
-  }
+  //     fetchPosicion(
+  //         '${newPosition.latitude}', '${newPosition.longitude}', tokenValue);
+  //     // Rest of your code...
+  //   } catch (e) {
+  //     if (e is TimeoutException) {
+  //       print('Timeout: Unable to obtain location within the time limit.');
+  //     } else if (e is PermissionDeniedException) {
+  //       print('Permission denied: The user denied access to location.');
+  //     } else if (e is LocationServiceDisabledException) {
+  //       print(
+  //           'Location service disabled: User allowed access but location services are disabled.');
+  //     } else {
+  //       print('Error obtaining position: $e');
+  //     }
+  //   }
+  // }
 
   /*@override
   void initState() {
@@ -323,8 +299,6 @@ void Enviar() async {
 
     String tokenValue = await dataKeeped.getToken('token');
 
-    fetchPosicion(
-        '${newPosition.latitude}', '${newPosition.longitude}', tokenValue);
   } catch (e) {
     if (e is TimeoutException) {
       print('Timeout: Unable to obtain location within the time limit.');

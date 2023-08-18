@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:apptestewillians/services/data_keeped.dart';
+import 'package:apptestewillians/services/http_req.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -89,7 +91,7 @@ class BackGroound {
       service.stopSelf();
     });
 
-    Timer.periodic(const Duration(seconds: 5), (timer) async {
+    Timer.periodic(const Duration(seconds: 25), (timer) async {
       LocationPermission permission = await Geolocator.checkPermission();
 
       if (permission == LocationPermission.denied) {
@@ -99,10 +101,22 @@ class BackGroound {
         // print('Permissão de localização negada permanentemente pelo usuário.');
         // Aqui você pode explicar ao usuário como habilitar manualmente as permissões nas configurações do dispositivo.
       } else {
-        Geolocator.getCurrentPosition().then((value) {
+        Geolocator.getCurrentPosition().then((value) async {
           // ignore: avoid_print
-          print(value);
+          // print(value);
+
+          DataKeeped dataKeeped = DataKeeped();
+
+          String aa = await dataKeeped.getToken("token");
+
+          // print(aa);
+
+          HttpReq httpReq = HttpReq();
+
+          httpReq.fetchPosicion(
+              '${value.latitude}', '${value.longitude}', aa);
         });
+
         // print('Permissão de localização concedida pelo usuário.');
         // Aqui você pode continuar com a lógica para obter a posição atual.
       }
