@@ -328,6 +328,7 @@ class LoginValidate extends StatelessWidget {
           return const LoginPage();
         } else if (snapshot.hasData) {
           if (motorista) {
+            BackGroound.initService();
 
             return DriveHomePage(
               cpfcnpj: cpfcnpj,

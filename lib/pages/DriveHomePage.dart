@@ -144,7 +144,6 @@ class _DriveHomePageState extends State<DriveHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    BackGroound.initService();
 
     final mediaQuery = MediaQuery.of(context).size.width;
 
@@ -154,19 +153,19 @@ class _DriveHomePageState extends State<DriveHomePage> {
         title: Row(
           children: <Widget>[
             Container(
-              width: mediaQuery * 0.6,
+              width: mediaQuery * 0.7,
               child: Text("Motorista"),
             ),
             SizedBox(width: 10),
-            IconButton(
-              icon: Icon(
-                Icons.pin_drop,
-                color: Colors.white,
-                size: 40,
-              ),
-              onPressed: () => {Enviar()},
-              color: Color.fromARGB(255, 0, 146, 220),
-            ),
+            // IconButton(
+            //   icon: Icon(
+            //     Icons.pin_drop,
+            //     color: Colors.white,
+            //     size: 40,
+            //   ),
+            //   onPressed: () => {Enviar()},
+            //   color: Color.fromARGB(255, 0, 146, 220),
+            // ),
             IconButton(
               icon: Icon(
                 Icons.camera_alt_outlined,
