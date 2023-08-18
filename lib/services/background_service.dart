@@ -107,9 +107,9 @@ class BackGroound {
 
           DataKeeped dataKeeped = DataKeeped();
 
-          String token= await dataKeeped.getToken("token");
+          String token = await dataKeeped.getToken("token");
 
-          // print(aa);
+          print(token);
 
           HttpReq httpReq = HttpReq();
 
