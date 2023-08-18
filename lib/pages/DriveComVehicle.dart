@@ -1,62 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
 import '../pages/DriveHomePage.dart';
+import '../services/background_service.dart';
 import 'login.page.dart';
 
-
 class DriveComVehicle extends StatefulWidget {
-  //const DriveComVehicle({super.key});
+  const DriveComVehicle({super.key});
   @override
   State<DriveComVehicle> createState() => _DriveComVehicleState();
 }
 
 class _DriveComVehicleState extends State<DriveComVehicle> {
-  final List rota = [
-    //DriveHomePage(), 
-  LoginPage()];
-  
+  final List rota = [DriveHomePage(cpfcnpj: ''), LoginPage()];
+
   @override
   Widget build(BuildContext context) {
+
     final title = "Motorista";
 
     return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                title,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            body: GridView.count(
-                crossAxisCount: 3,
-                children: List.generate(comandes.length, (index) {
-                  return Center(
-                    child: ChoiceCard(comandes: comandes[index]),
-                  );
-                })),
-                 bottomNavigationBar: bmnav.BottomNav(
-        onTap: (index) {
-          if(index == 1){
-            Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => rota[index]),
-                    (Route<dynamic> route) => false);
-          }else{
-            Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (context) => rota[index]),
-                          (Route<dynamic> route) => false);
-          
-          }
-          //getView(index);
-        },
-        labelStyle: bmnav.LabelStyle(visible: true),
-        iconStyle:
-            bmnav.IconStyle(color: Colors.black, onSelectColor: Colors.red),
-        elevation: 10,
-        items: [
-          bmnav.BottomNavItem(Icons.home, label: "Página inicial"),
-          bmnav.BottomNavItem(Icons.exit_to_app, label: "Sair"),
-        ],
+      appBar: AppBar(
+        title: Text(
+          title,
+          textAlign: TextAlign.center,
+        ),
       ),
+      body: GridView.count(
+          crossAxisCount: 3,
+          children: List.generate(comandes.length, (index) {
+            return Center(
+              child: ChoiceCard(comandes: comandes[index]),
+            );
+          })),
+      // bottomNavigationBar: bmnav.BottomNav(
+      //   onTap: (index) {
+      //     if (index == 1) {
+      //       Navigator.of(context).pushAndRemoveUntil(
+      //           MaterialPageRoute(builder: (context) => rota[index]),
+      //           (Route<dynamic> route) => false);
+      //     } else {
+      //       Navigator.of(context).pushAndRemoveUntil(
+      //           MaterialPageRoute(builder: (context) => rota[index]),
+      //           (Route<dynamic> route) => false);
+      //     }
+      //     //getView(index);
+      //   },
+      //   labelStyle: bmnav.LabelStyle(visible: true),
+      //   iconStyle:
+      //       bmnav.IconStyle(color: Colors.black, onSelectColor: Colors.red),
+      //   elevation: 10,
+      //   items: [
+      //     bmnav.BottomNavItem(Icons.home, label: "Página inicial"),
+      //     bmnav.BottomNavItem(Icons.exit_to_app, label: "Sair"),
+      //   ],
+      // ),
     );
   }
 }
@@ -87,24 +84,26 @@ class ChoiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        color: Colors.white,
-        child: new InkWell(
-            onTap: () {
-              print(comandes?.title);
-              // Navigator.push(
-              // context, MaterialPageRoute(builder: (_) => showAlertDialog(context)));              
-            },
-            child: Center(
-              child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "${comandes?.title}",
-                      textAlign: TextAlign.center,
-                    ),
-                  ]), 
-            ),),);
+      color: Colors.white,
+      child: new InkWell(
+        onTap: () {
+          print(comandes?.title);
+          // Navigator.push(
+          // context, MaterialPageRoute(builder: (_) => showAlertDialog(context)));
+        },
+        child: Center(
+          child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "${comandes?.title}",
+                  textAlign: TextAlign.center,
+                ),
+              ]),
+        ),
+      ),
+    );
   }
 }
 /*

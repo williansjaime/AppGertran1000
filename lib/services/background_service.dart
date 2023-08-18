@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:apptestewillians/pages/PrivacyPolicyScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -75,7 +74,7 @@ class BackGroound {
   }
 
   //onstart method
-// @pragma("vm:enry-point")
+  @pragma("vm:enry-point")
   static void onStart(ServiceInstance service) async {
     DartPluginRegistrant.ensureInitialized();
 
@@ -114,7 +113,7 @@ class BackGroound {
   }
 
 //iosbackground
-// @pragma("vm:enry-point")
+  @pragma("vm:enry-point")
   static Future<bool> iosBackground(ServiceInstance service) async {
     WidgetsFlutterBinding.ensureInitialized();
     DartPluginRegistrant.ensureInitialized();
@@ -125,6 +124,12 @@ class BackGroound {
   static void stop() async {
     if (Platform.isAndroid || Platform.isIOS) {
       FlutterBackgroundService().invoke("stopService");
+    }
+  }
+
+  static void back() async {
+    if (Platform.isAndroid || Platform.isIOS) {
+      FlutterBackgroundService().invoke("setAsBackground");
     }
   }
 

@@ -24,19 +24,19 @@ Future<void> fetchPosicion(
     'token': token,
   };
   tokenGlobal = token;
-  try {
-    http.Response response = await http.post(
-      Uri.parse(url),
-      body: data,
-    );
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      print('Resposta 2: ${response.body}');
-    } else {
-      throw Exception('Falha para envira a posição');
-    }
-  } catch (e) {
-    throw Exception(e);
-  }
+  // try {
+  //   http.Response response = await http.post(
+  //     Uri.parse(url),
+  //     body: data,
+  //   );
+  //   if (response.statusCode >= 200 && response.statusCode < 300) {
+  //     print('Resposta 2: ${response.body}');
+  //   } else {
+  //     throw Exception('Falha para envira a posição');
+  //   }
+  // } catch (e) {
+  //   throw Exception(e);
+  // }
 }
 
 class DriveHomePage extends StatefulWidget {
@@ -78,7 +78,6 @@ class _DriveHomePageState extends State<DriveHomePage> {
     );
     _timer = Timer.periodic(Duration(minutes: 5), _sendPosition);
     now = DateTime.now();
-     BackGroound.initService();
   }
 
   void _sendPosition(Timer timer) async {
@@ -128,7 +127,7 @@ class _DriveHomePageState extends State<DriveHomePage> {
     }
   }*/
 
-  final List rota = [DriveComVehicle(), LoginPage()];
+  //final List rota = [DriveComVehicle(), LoginPage()];
 
   File? _storedImage;
   _takePicture() async {
@@ -145,10 +144,10 @@ class _DriveHomePageState extends State<DriveHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    BackGroound.initService();
+
     final mediaQuery = MediaQuery.of(context).size.width;
 
-
-   
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -205,8 +204,8 @@ class _DriveHomePageState extends State<DriveHomePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) =>
-                                          DriveComVehicle())) //APIIntegration()))//
+                                      builder: (_) => DriveComVehicle(),
+                                      maintainState: true))
                             },
                         color: Colors.white),
                   ),
@@ -278,15 +277,17 @@ class _DriveHomePageState extends State<DriveHomePage> {
       ])),
       bottomNavigationBar: bmnav.BottomNav(
         onTap: (index) {
-          if (index == 2) {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => rota[index]),
-                (Route<dynamic> route) => false);
+          if (index == 0) {
+            Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => DriveComVehicle(),
+                      maintainState: true));
           } else {
             BackGroound.stop();
             dataKeeped.saveToken('token', "");
             Navigator.push(
-                context, MaterialPageRoute(builder: (_) => rota[index]));
+                context, MaterialPageRoute(builder: (_) => LoginPage()));
           }
         },
         labelStyle: bmnav.LabelStyle(visible: true),
