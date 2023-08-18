@@ -61,8 +61,8 @@ class BackGroound {
               autoStart: true,
               isForegroundMode: true,
               notificationChannelId: "canal 1",
-              initialNotificationTitle: "",
-              initialNotificationContent: "",
+              initialNotificationTitle: "Gertran Monitoramento",
+              initialNotificationContent: "executando em segundo plano...",
               foregroundServiceNotificationId: 100));
     }
 
