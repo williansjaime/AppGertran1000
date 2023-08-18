@@ -91,7 +91,7 @@ class BackGroound {
       service.stopSelf();
     });
 
-    Timer.periodic(const Duration(seconds: 25), (timer) async {
+    Timer.periodic(const Duration(minutes: 2), (timer) async {
       LocationPermission permission = await Geolocator.checkPermission();
 
       if (permission == LocationPermission.denied) {
