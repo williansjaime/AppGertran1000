@@ -55,6 +55,7 @@ class _LoginPageState extends State<LoginPage> {
 
       teste.then((value) {
         if (!value) {
+          BackGroound.stop();
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()),
               (Route<dynamic> route) => false);
