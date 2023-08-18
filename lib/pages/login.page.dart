@@ -24,8 +24,8 @@ class _LoginPageState extends State<LoginPage> {
   var cpfcnpj = new TextEditingController();
   var senha = new TextEditingController();
   Color cor = Color.fromARGB(255, 0, 100, 220);
-  bool tipoUsuario = false;
-  bool motorista = false;
+  bool tipoUsuario = true;
+  bool motorista = true;
 
   void _showDialog() {
     // flutter defined function
@@ -220,25 +220,25 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   Divider(),
-                  if (tipoUsuario == true)
-                    Container(
-                      height: 50,
-                      width: 150,
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 165, 33, 66),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: TextButton(
-                        onPressed: () {
-                          setState(() {
-                            tipoUsuario = false;
-                          });
-                        },
-                        child: Text(
-                          'Voltar',
-                          style: TextStyle(color: Colors.white, fontSize: 25),
-                        ),
-                      ),
-                    ),
+                  // if (tipoUsuario == true)
+                  //   Container(
+                  //     height: 50,
+                  //     width: 150,
+                  //     decoration: BoxDecoration(
+                  //         color: Color.fromARGB(255, 165, 33, 66),
+                  //         borderRadius: BorderRadius.circular(20)),
+                  //     child: TextButton(
+                  //       onPressed: () {
+                  //         setState(() {
+                  //           tipoUsuario = false;
+                  //         });
+                  //       },
+                  //       child: Text(
+                  //         'Voltar',
+                  //         style: TextStyle(color: Colors.white, fontSize: 25),
+                  //       ),
+                  //     ),
+                  //   ),
                 ],
               ),
             ),
