@@ -70,7 +70,7 @@ flutter_native_splash:
   web: false
 
 
-  background_image: "assets/images/gertranlogo.png"
+  image: "assets/images/gertranlogo.png"
 
 
 
