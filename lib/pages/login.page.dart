@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 import '../models/Login.dart';
+import '../services/background_service.dart';
 import '../services/data_keeped.dart';
 import '../services/if_logged.dart';
 import 'HomePage.dart';
@@ -11,6 +12,7 @@ import 'package:apptestewillians/pages/DriveHomePage.dart';
 import 'package:mask_shifter/mask_shifter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'PrivacyPolicyScreen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -24,8 +26,6 @@ class _LoginPageState extends State<LoginPage> {
   Color cor = Color.fromARGB(255, 0, 100, 220);
   bool tipoUsuario = false;
   bool motorista = false;
-
-
 
   void _showDialog() {
     // flutter defined function
@@ -50,8 +50,22 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    IfLogged login = IfLogged();
-    login.verificarSeLogado(context);
+    try {
+      Future<bool> teste = BackGroound.verificarLocalizacaoAparelho();
+
+      teste.then((value) {
+        if (!value) {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()),
+              (Route<dynamic> route) => false);
+        } else {
+          IfLogged login = IfLogged();
+          login.verificarSeLogado(context);
+        }
+      });
+    } catch (e) {
+      print(e.toString());
+    }
 
     return Scaffold(
       body: Stack(
