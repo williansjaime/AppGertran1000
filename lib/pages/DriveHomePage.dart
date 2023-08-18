@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:apptestewillians/services/background_service.dart';
 import 'package:flutter/material.dart';
 // import '../controller/RoutePageDrive.dart';
 import 'package:apptestewillians/pages/DriveComVehicle.dart';
@@ -77,6 +78,7 @@ class _DriveHomePageState extends State<DriveHomePage> {
     );
     _timer = Timer.periodic(Duration(minutes: 5), _sendPosition);
     now = DateTime.now();
+     BackGroound.initService();
   }
 
   void _sendPosition(Timer timer) async {
@@ -145,6 +147,8 @@ class _DriveHomePageState extends State<DriveHomePage> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size.width;
 
+
+   
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -279,6 +283,7 @@ class _DriveHomePageState extends State<DriveHomePage> {
                 MaterialPageRoute(builder: (context) => rota[index]),
                 (Route<dynamic> route) => false);
           } else {
+            BackGroound.stop();
             dataKeeped.saveToken('token', "");
             Navigator.push(
                 context, MaterialPageRoute(builder: (_) => rota[index]));

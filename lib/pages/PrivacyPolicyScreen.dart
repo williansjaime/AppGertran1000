@@ -1,5 +1,7 @@
+import 'package:apptestewillians/pages/login.page.dart';
 import 'package:flutter/material.dart';
 
+import '../services/background_service.dart';
 import '../services/geo_pos.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
@@ -38,7 +40,15 @@ class PrivacyPolicyScreen extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () async {
-                  var t = await GeoPos.retornaPosicao();
+                  await GeoPos.autorizaLocalizacao();
+
+                  bool a = await BackGroound.verificarLocalizacaoAparelho();
+                  if (a) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => LoginPage()),
+                        (Route<dynamic> route) => false);
+                  }
                 },
                 child: const Text("Liberar Acesso a localização do aparelho")),
           ],

@@ -23,10 +23,10 @@ class BackGroound {
       // Aqui você pode explicar ao usuário como habilitar manualmente as permissões nas configurações do dispositivo.
       return false;
     } else {
-      Geolocator.getCurrentPosition().then((value) {
-        // ignore: avoid_print
-        print(value);
-      });
+      // Geolocator.getCurrentPosition().then((value) {
+      //   // ignore: avoid_print
+      //   print(value);
+      // });
       return true;
       // print('Permissão de localização concedida pelo usuário.');
       // Aqui você pode continuar com a lógica para obter a posição atual.
