@@ -38,19 +38,23 @@ class PrivacyPolicyScreen extends StatelessWidget {
               'Você pode gerenciar as permissões de localização a qualquer momento nas configurações do aplicativo. Se tiver dúvidas sobre a nossa política de privacidade, entre em contato conosco.',
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
-            ElevatedButton(
-                onPressed: () async {
-                  await GeoPos.autorizaLocalizacao();
+            SizedBox(height: 20),
+            Align(
+              alignment: Alignment.center,
+              child: ElevatedButton(
+                  onPressed: () async {
+                    await GeoPos.autorizaLocalizacao();
 
-                  bool a = await BackGroound.verificarLocalizacaoAparelho();
-                  if (a) {
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                            builder: (context) => LoginPage()),
-                        (Route<dynamic> route) => false);
-                  }
-                },
-                child: const Text("Liberar Acesso a localização do aparelho")),
+                    bool a = await BackGroound.verificarLocalizacaoAparelho();
+                    if (a) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => LoginPage()),
+                          (Route<dynamic> route) => false);
+                    }
+                  },
+                  child:
+                      const Text("Liberar Acesso a localização do aparelho")),
+            )
           ],
         ),
       ),
