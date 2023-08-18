@@ -1,13 +1,20 @@
 // import 'dart:io';
 import 'package:apptestewillians/services/background_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import '../pages/login.page.dart';
 import 'pages/PrivacyPolicyScreen.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.removeAfter(inicialization);
   // HttpOverrides.global = new MyHttpOverrides();
 
   runApp(AppGertran());
+}
+
+Future inicialization(BuildContext? context) async {
+  await Future.delayed(Duration(seconds: 3));
 }
 
 // class MyHttpOverrides extends HttpOverrides{
@@ -29,8 +36,6 @@ void main() async {
 class AppGertran extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Gertran',

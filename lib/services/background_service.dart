@@ -10,7 +10,6 @@ import 'package:geolocator/geolocator.dart';
 
 class BackGroound {
   static Future<bool> verificarLocalizacaoAparelho() async {
-    WidgetsFlutterBinding.ensureInitialized();
     LocationPermission permission = await Geolocator.checkPermission();
 
     if (permission == LocationPermission.denied) {
