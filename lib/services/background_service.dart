@@ -107,14 +107,14 @@ class BackGroound {
 
           DataKeeped dataKeeped = DataKeeped();
 
-          String aa = await dataKeeped.getToken("token");
+          String token= await dataKeeped.getToken("token");
 
           // print(aa);
 
           HttpReq httpReq = HttpReq();
 
           httpReq.fetchPosicion(
-              '${value.latitude}', '${value.longitude}', aa);
+              '${value.latitude}', '${value.longitude}', token);
         });
 
         // print('Permissão de localização concedida pelo usuário.');
